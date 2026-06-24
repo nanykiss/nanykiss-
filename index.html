@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NANY KISS 💋 | CRM Inteligente</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --rosa-maquillaje: #E8C5C8;
+            --rosa-pastel: #FCEEEF;
+            --lavanda-suave: #E3D9FC;
+            --blanco-calido: #FAFAFA;
+            --dorado: #D4AF37;
+            --dorado-soft: #F3E5AB;
+            --text-dark: #3D2B2E;
+            --text-light: #7D6B6E;
+            --danger: #FF6B6B;
+            --warning: #FFA826;
+            --success: #4ECA64;
+            --info: #4EA3CA;
+            --shadow: 0 4px 15px rgba(232, 197, 200, 0.3);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--blanco-calido);
+            color: var(--text-dark);
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand-font {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: linear-gradient(135deg, var(--rosa-maquillaje), var(--rosa-pastel));
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            padding: 0 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- DASHBOARD GRID --- */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .dash-card {
+            background: white;
+            padding: 12px 8px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--rosa-pastel);
+            transition: transform 0.2s;
+        }
+
+        .dash-card:active {
+            transform: scale(0.95);
+        }
+
+        .dash-card .count {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        .dash-card .label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .dash-card.vencidas { border-left: 4px solid var(--danger); }
+        .dash-card.deuda { border-left: 4px solid var(--warning); }
+        .dash-card.inactivas { border-left: 4px solid var(--info); }
+        .dash-card.regalos { border-left: 4px solid var(--dorado); }
+        .dash-card.vip { border-left: 4px solid var(--lavanda-suave); }
+        .dash-card.cumple { border-left: 4px solid #FF8DA1; }
+
+        /* --- BUSCADOR & ACCIONES --- */
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border-radius: 25px;
+            border: 1px solid var(--rosa-maquillaje);
+            outline: none;
+            font-size: 0.95rem;
+            box-shadow: var(--shadow);
+            background: white;
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 11px;
+            font-size: 1rem;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--rosa-maquillaje), #D4A5A9);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--lavanda-suave), #CBC0F5);
+            color: var(--text-dark);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* --- LISTADO DE CLIENTAS --- */
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 5px;
+            color: var(--text-dark);
+        }
+
+        .client-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .client-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--rosa-pastel);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .client-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 15px;
+            bottom: 15px;
+            width: 5px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .client-card.status-vencida::before { background-color: var(--danger); }
+        .client-card.status-deuda::before { background-color: var(--warning); }
+        .client-card.status-inactiva::before { background-color: var(--info); }
+        .client-card.status-recompra::before { background-color: var(--lavanda-suave); }
+        .client-card.status-cumple::before { background-color: #FF8DA1; }
+        .client-card.status-sano::before { background-color: var(--success); }
+
+        .client-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .client-info p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+
+        .client-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .badge-bronce { background: #E9DCC9; color: #5D4037; }
+        .badge-plata { background: #E5E7EB; color: #374151; }
+        .badge-oro { background: var(--dorado-soft); color: #856404; }
+        .badge-vip { background: var(--lavanda-suave); color: #4C1D95; }
+
+        .client-meta {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .client-status-indicator {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .ind-vencida { color: var(--danger); background: #FFEAEA; }
+        .ind-deuda { color: var(--warning); background: #FFF3E0; }
+        .ind-inactiva { color: var(--info); background: #E0F2F1; }
+        .ind-recompra { color: #6B21A8; background: var(--lavanda-suave); }
+        .ind-cumple { color: #BE185D; background: #FCE7F3; }
+
+        .stars-container {
+            color: var(--dorado);
+            font-size: 0.8rem;
+        }
+
+        /* --- MODALES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 550px;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            padding: 20px 15px;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--rosa-pastel);
+            padding-bottom: 10px;
+        }
+
+        .modal-close {
+            background: var(--rosa-pastel);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* --- FORMULARIOS --- */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--rosa-maquillaje);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+            background: var(--blanco-calido);
+        }
+
+        .form-control:focus {
+            border-color: var(--text-dark);
+            background: white;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* --- EXPEDIENTE DE CLIENTE --- */
+        .expediente-header {
+            background: var(--rosa-pastel);
+            padding: 12px;
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+        }
+
+        .expediente-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .expediente-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-sm {
+            padding: 8px;
+            font-size: 0.75rem;
+            border-radius: 8px;
+        }
+
+        .historial-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .historial-item {
+            background: var(--blanco-calido);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            border-left: 4px solid var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .historial-item.type-compra { border-left-color: var(--success); }
+        .historial-item.type-adeudo { border-left-color: var(--warning); }
+        .historial-item.type-pago { border-left-color: var(--info); }
+        .historial-item.type-regalo { border-left-color: var(--dorado); }
+
+        /* --- WHATSAPP PANEL --- */
+        .wa-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-wa {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+            font-size: 0.75rem;
+            padding: 10px;
+            text-align: left;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- CAMPANAS Y RETOS --- */
+        .challenge-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--rosa-pastel);
+        }
+
+        .challenge-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        /* --- CONFIGURACION Y REPORTES --- */
+        .report-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .report-box {
+            background: var(--blanco-calido);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .report-box span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        /* --- NAV INFERIOR --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            height: 65px;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 90;
+            border-top: 1px solid var(--rosa-pastel);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--text-dark);
+        }
+
+        .nav-item span.icon {
+            font-size: 1.3rem;
+        }
+
+        /* --- NOTIFICACION TOAST --- */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .view-panel {
+            display: none;
+        }
+
+        .view-panel.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast">✅ ¡Acción guardada con éxito!</div>
+
+    <header>
+        <h1 class="brand-font">💋 NANY KISS</h1>
+        <p>✨ Tu agenda inteligente de clientas</p>
+    </header>
+
+    <div class="container">
+        
+        <div id="view-inicio" class="view-panel active">
+            <div class="dashboard" id="dashboard-counts">
+                <div class="dash-card vencidas">
+                    <span class="count" id="count-vencidas">0</span>
+                    <span class="label">🔴 Vencidas</span>
+                </div>
+                <div class="dash-card deuda">
+                    <span class="count" id="count-deuda">0</span>
+                    <span class="label">🟠 Con Deuda</span>
+                </div>
+                <div class="dash-card inactivas">
+                    <span class="count" id="count-inactivas">0</span>
+                    <span class="label">💤 Inactivas</span>
+                </div>
+                <div class="dash-card regalos">
+                    <span class="count" id="count-regalos">0</span>
+                    <span class="label">🎁 Regalos</span>
+                </div>
+                <div class="dash-card vip">
+                    <span class="count" id="count-vip">0</span>
+                    <span class="label">💎 VIP</span>
+                </div>
+                <div class="dash-card cumple">
+                    <span class="count" id="count-cumple">0</span>
+                    <span class="label">🎂 Cumple</span>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Buscar por nombre, teléfono, notas..." oninput="renderClientas()">
+            </div>
+
+            <div class="action-bar">
+                <button class="btn btn-primary" onclick="openModal('modal-cliente')">➕ Nueva Clienta</button>
+            </div>
+
+            <div class="section-title">
+                <span>📋 Prioridad de Seguimiento</span>
+            </div>
+            <div class="client-list" id="main-client-list">
+                </div>
+        </div>
+
+        <div id="view-retos" class="view-panel">
+            <div class="section-title">
+                <span>🎯 Retos y Campañas Activas</span>
+                <button class="btn btn-primary btn-sm" style="flex:none; padding:5px 10px;" onclick="openModal('modal-reto')">➕ Crear</button>
+            </div>
+            <div id="challenges-list">
+                </div>
+        </div>
+
+        <div id="view-reportes" class="view-panel">
+            <div class="section-title">
+                <span>📊 Resumen Financiero y Métricas</span>
+            </div>
+            <div class="report-grid">
+                <div class="report-box">
+                    <p style="font-size:0.75rem; color:var(--text-light)">🛒 Ventas Totales</p>
+                    <span id="rep-ventas" style="color:var(--success)">$0.00</span>
+                </div>
+                <div class="report-box">
+                    <p style="font-size:0.75rem; color:var(--text-light)">🟠 Adeudos Totales</p>
+                    <span id="rep-adeudos" style="color:var(--warning)">$0.00</span>
+                </div>
+                <div class="report-box">
+                    <p style="font-size:0.75rem; color:var(--text-light)">💵 Total Cobrado</p>
+                    <span id="rep-cobrado" style="color:var(--info)">$0.00</span>
+                </div>
+                <div class="report-box">
+                    <p style="font-size:0.75rem; color:var(--text-light)">👥 Activas / Inactivas</p>
+                    <span id="rep-clientes">0 / 0</span>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span>🏆 Distribución de Niveles</span>
+            </div>
+            <div class="report-grid" style="grid-template-columns: repeat(4, 1fr); gap: 5px;">
+                <div class="report-box" style="padding:5px;"><p style="font-size:0.6rem;">BRONCE</p><span id="lvl-bronce" style="font-size:1rem;">0</span></div>
+                <div class="report-box" style="padding:5px;"><p style="font-size:0.6rem;">PLATA</p><span id="lvl-plata" style="font-size:1rem;">0</span></div>
+                <div class="report-box" style="padding:5px;"><p style="font-size:0.6rem;">ORO</p><span id="lvl-oro" style="font-size:1rem;">0</span></div>
+                <div class="report-box" style="padding:5px;"><p style="font-size:0.6rem;">VIP</p><span id="lvl-vip" style="font-size:1rem;">0</span></div>
+            </div>
+        </div>
+
+        <div id="view-ajustes" class="view-panel">
+            <div class="section-title">
+                <span>⚙️ Configuración del Negocio</span>
+            </div>
+            <div style="background:white; padding:15px; border-radius:var(--radius); box-shadow:var(--shadow);">
+                <form id="form-ajustes" onsubmit="saveAjustes(event)">
+                    <div class="form-group">
+                        <label>Nombre de la Consultora/Negocio</label>
+                        <input type="text" id="cfg-nombre" class="form-control">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>Teléfono Principal</label>
+                            <input type="text" id="cfg-tel" class="form-control">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>Banco</label>
+                            <input type="text" id="cfg-banco" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Titular de la Cuenta</label>
+                        <input type="text" id="cfg-titular" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Tarjeta / CLABE</label>
+                        <input type="text" id="cfg-tarjeta" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje Cobranza (WhatsApp)</label>
+                        <textarea id="cfg-msg-cobranza" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje Sugerencia de Recompra</label>
+                        <textarea id="cfg-msg-recompra" class="form-control" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">💾 Guardar Configuración</button>
+                </form>
+
+                <div style="margin-top:25px; padding-top:15px; border-top:1px solid var(--rosa-pastel);">
+                    <p style="font-size:0.8rem; font-weight:600; margin-bottom:10px;">Respaldo de Datos</p>
+                    <div class="form-row">
+                        <button class="btn btn-secondary btn-sm" onclick="exportarDatos()">📤 Exportar JSON</button>
+                        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('import-file').click()">📥 Importar JSON</button>
+                    </div>
+                    <input type="file" id="import-file" style="display:none" onchange="importarDatos(event)">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal-cliente" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✨ Registrar Clienta</h2>
+                <button class="modal-close" onclick="closeModal('modal-cliente')">✕</button>
+            </div>
+            <form id="form-cliente" onsubmit="saveCliente(event)">
+                <div class="form-group">
+                    <label>Nombre de la Clienta *</label>
+                    <input type="text" id="cli-nombre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono (WhatsApp, Ej: 5512345678) *</label>
+                    <input type="number" id="cli-telefono" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Cumpleaños</label>
+                    <input type="date" id="cli-cumple" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Observaciones / Marcas / Notas libres</label>
+                    <textarea id="cli-observaciones" class="form-control" rows="3" placeholder="Usa Betterware, vecina, prefiere Natura..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">💖 Guardar Clienta</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-expediente" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content" style="max-height: 90vh;">
+            <div class="modal-header">
+                <h2 id="exp-nombre-titulo">Expediente de Clienta</h2>
+                <button class="modal-close" onclick="closeModal('modal-expediente')">✕</button>
+            </div>
+            <div class="expediente-header">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span id="exp-nivel" class="client-badge badge-bronce">BRONCE</span>
+                    <span id="exp-fidelidad-estrellas" class="stars-container">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div class="expediente-grid">
+                    <div>📞 <strong>Tel:</strong> <span id="exp-tel"></span></div>
+                    <div>🎂 <strong>Cumple:</strong> <span id="exp-cumple"></span></div>
+                    <div style="grid-column: span 2;">📝 <strong>Notas:</strong> <span id="exp-notas"></span></div>
+                    <div style="color:var(--warning)">🟠 <strong>Saldo Adeudo:</strong> <span id="exp-saldo-total">$0</span></div>
+                    <div style="color:var(--success)">💰 <strong>Historial Acumulado:</strong> <span id="exp-acumulado">$0</span></div>
+                </div>
+            </div>
+
+            <div class="expediente-actions">
+                <button class="btn btn-primary btn-sm" onclick="openVentaModal()">🛍️ + Venta</button>
+                <button class="btn btn-secondary btn-sm" id="btn-abonar-exp" onclick="openAbonoModal()">💵 + Abono</button>
+                <button class="btn btn-secondary btn-sm" style="background:#FFE0B2" onclick="checkManualRegalo()">🎁 Regalo</button>
+            </div>
+
+            <p style="font-size:0.75rem; font-weight:600; margin-bottom:5px;">💬 Mensajes Rápidos de WhatsApp</p>
+            <div class="wa-grid" id="wa-actions-container">
+                </div>
+
+            <p style="font-size:0.75rem; font-weight:600; margin-top:15px; margin-bottom:5px;">🎯 Puntos en Retos Activos</p>
+            <div id="exp-retos-puntos" style="font-size:0.8rem; background:var(--blanco-calido); padding:10px; border-radius:10px;">
+                </div>
+
+            <p style="font-size:0.75rem; font-weight:600; margin-top:15px;">📜 Historial de Movimientos</p>
+            <div class="historial-list" id="exp-historial-list">
+                </div>
+        </div>
+    </div>
+
+    <div id="modal-venta" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🛍️ Registrar Nueva Venta</h2>
+                <button class="modal-close" onclick="closeModal('modal-venta')">✕</button>
+            </div>
+            <form id="form-venta" onsubmit="saveVenta(event)">
+                <div class="form-group">
+                    <label>Marca / Catálogo</label>
+                    <input type="text" id="vta-marca" class="form-control" placeholder="Ej: Jafra, Natura, Mary Kay" required>
+                </div>
+                <div class="form-group">
+                    <label>Producto(s)</label>
+                    <input type="text" id="vta-producto" class="form-control" placeholder="Ej: Perfume Coreta, Labial Red" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Monto Total ($) *</label>
+                        <input type="number" id="vta-monto" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Fecha Venta</label>
+                        <input type="date" id="vta-fecha" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Forma de Pago Inicial</label>
+                    <select id="vta-condicion" class="form-control" onchange="toggleMontoInicial()">
+                        <option value="contado">💵 Contado Completo</option>
+                        <option value="parcial">🟠 Adeudo Parcial (Dio Enganche)</option>
+                        <option value="adeudo">🔴 Adeudo Completo ($0 inicial)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="group-enganche" style="display:none;">
+                    <label>¿Cuánto dinero dejó de enganche/abono inicial? ($)</label>
+                    <input type="number" id="vta-enganche" class="form-control" value="0">
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Recordar Recompra en (Días)</label>
+                        <input type="number" id="vta-recompra-dias" class="form-control" placeholder="Ej. 30 para crema" value="0">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Días Límite de Pago</label>
+                        <input type="number" id="vta-limite-dias" class="form-control" value="15">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">✅ Confirmar Venta</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-abono" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💵 Registrar Abono / Pago</h2>
+                <button class="modal-close" onclick="closeModal('modal-abono')">✕</button>
+            </div>
+            <form id="form-abono" onsubmit="saveAbono(event)">
+                <div class="form-group">
+                    <label>Selecciona la Cuenta / Pedido Pendiente</label>
+                    <select id="abo-cuenta-index" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad a Abonar ($)</label>
+                    <input type="number" id="abo-monto" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">💰 Aplicar Abono</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-reto" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎯 Nueva Campaña o Reto</h2>
+                <button class="modal-close" onclick="closeModal('modal-reto')">✕</button>
+            </div>
+            <form id="form-reto" onsubmit="saveReto(event)">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Nombre del Reto</label>
+                        <input type="text" id="ret-nombre" class="form-control" placeholder="Ej. Reto Skincare" required>
+                    </div>
+                    <div class="form-group" style="flex:0.3;">
+                        <label>Emoji</label>
+                        <input type="text" id="ret-emoji" class="form-control" placeholder="💄" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1;">
+                        <label>Meta (Compras / Unidades)</label>
+                        <input type="number" id="ret-meta" class="form-control" placeholder="3" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Puntos de Premio</label>
+                        <input type="number" id="ret-puntos" class="form-control" placeholder="100" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Premio / Regalo al completar</label>
+                    <input type="text" id="ret-premio" class="form-control" placeholder="Ej. Labial Gratis o Descuento" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">🚀 Lanzar Campaña</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-alerta-regalo" class="modal-overlay" style="z-index: 110;">
+        <div class="modal-content" style="text-align: center; padding: 30px 20px;">
+            <span style="font-size: 4rem;">🎁</span>
+            <h2 style="margin:10px 0;">¡Regalo Acreditado!</h2>
+            <p id="txt-alerta-regalo-msg" style="font-size:0.9rem; color:var(--text-light); margin-bottom:20px;"></p>
+            <p style="font-weight:600; margin-bottom:15px;">¿Se entrega el premio en este momento?</p>
+            <div class="form-row">
+                <button class="btn btn-primary" onclick="procesarEntregaRegalo(true)">✅ SÍ (Entregado)</button>
+                <button class="btn btn-secondary" onclick="procesarEntregaRegalo(false)">⏳ NO (Dejar Pendiente)</button>
+            </div>
+        </div>
+    </div>
+
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchView('inicio', this)">
+            <span class="icon">💋</span>
+            <span>Agenda</span>
+        </button>
+        <button class="nav-item" onclick="switchView('retos', this)">
+            <span class="icon">🎯</span>
+            <span>Retos</span>
+        </button>
+        <button class="nav-item" onclick="switchView('reportes', this)">
+            <span class="icon">📊</span>
+            <span>Reportes</span>
+        </button>
+        <button class="nav-item" onclick="switchView('ajustes', this)">
+            <span class="icon">⚙️</span>
+            <span>Ajustes</span>
+        </button>
+    </nav>
+
+
+    <script>
+        // --- BASE DE DATOS LOCALSTORAGE ---
+        let DATA = {
+            clientas: [],
+            retos: [],
+            ajustes: {
+                nombre: "Nany",
+                telefono: "",
+                banco: "BBVA",
+                titular: "",
+                tarjeta: "",
+                msgCobranza: "Hola [CLIENTA], te comparto tu saldo de [SALDO] de tus productos de [DETALLE]. Te dejo mi tarjeta [TARJETA] ([BANCO]) a nombre de [TITULAR]. ¡Muchas gracias por tu compra! 💋",
+                msgRecompra: "¡Hola [CLIENTA]! ✨ Te escribo para ver cómo vas con tu [PRODUCTO] que me compraste de [MARCA]. Me imagino que ya te queda poquito, avísame si te encargo su repuesto en este pedido. 🛍️",
+            }
+        };
+
+        let currentClientaId = null;
+        let regaloTriggerId = null; // Almacena temporalmente la clienta que disparó el regalo
+
+        // Carga inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('NANYKISS_DATA')) {
+                try {
+                    DATA = JSON.parse(localStorage.getItem('NANYKISS_DATA'));
+                    // Validar estructuras por si son viejas
+                    if(!DATA.retos) DATA.retos = [];
+                    if(!DATA.ajustes.msgCobranza) DATA.ajustes = DATA.ajustes; 
+                } catch(e) {
+                    console.error("Error cargando LocalStorage, reiniciando plantilla estructurada", e);
+                }
+            } else {
+                // Datos demo para que no se vea vacío el primer despliegue
+                DATA.clientas = [
+                    {
+                        id: "demo-1",
+                        nombre: "Aurora López",
+                        telefono: "5512345678",
+                        cumpleanos: "1995-07-15",
+                        observaciones: "Compra Jafra y Skincare. Prefiere fragancias dulces.",
+                        estrellas: 4,
+                        regaloPendiente: false,
+                        comprasAcumuladas: 1250,
+                        nivel: "PLATA",
+                        adeudos: [
+                            { marca: "Jafra", producto: "Perfume Coreta", total: 500, saldo: 500, fechaVenta: "2026-06-01", limiteDias: 15 }
+                        ],
+                        historial: [
+                            { fecha: "2026-06-01", tipo: "adeudo", marca: "Jafra", detalle: "Perfume Coreta - Adeudo Abierto", monto: 500 }
+                        ],
+                        recompras: []
+                    },
+                    {
+                        id: "demo-2",
+                        nombre: "Petra Martínez",
+                        telefono: "5587654321",
+                        cumpleanos: "1988-02-20",
+                        observaciones: "Vecina. Compra Betterware.",
+                        estrellas: 5,
+                        regaloPendiente: true,
+                        comprasAcumuladas: 3400,
+                        nivel: "ORO",
+                        adeudos: [],
+                        historial: [
+                            { fecha: "2026-04-10", tipo: "compra", marca: "Betterware", detalle: "Filtro de agua", monto: 450 }
+                        ],
+                        recompras: []
+                    }
+                ];
+                saveToLocalStorage();
+            }
+            
+            initAjustesForm();
+            actualizarTodo();
+        });
+
+        function saveToLocalStorage() {
+            localStorage.setItem('NANYKISS_DATA', JSON.stringify(DATA));
+        }
+
+        function showToast(text) {
+            const t = document.getElementById('toast');
+            t.innerText = text;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // --- SISTEMA DE NAVEGACIÓN ---
+        function switchView(viewId, buttonElement) {
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            if(buttonElement) buttonElement.classList.add('active');
+            
+            actualizarTodo();
+        }
+
+        // --- CONTROLADORES DE MODAL ---
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        function closeModalOnOverlay(e) {
+            if(e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
+        }
+
+        // --- LÓGICA DE NEGOCIO Y SEMÁFOROS (CÁLCULOS CRÍTICOS) ---
+        function calcularEstadosYAlertas(clienta) {
+            let status = "sano"; 
+            let diasInactiva = 0;
+            let diasVencidaMax = 0;
+            let tieneDeuda = false;
+            let tieneVencida = false;
+            let sugerirRecompra = false;
+            let esCumple = false;
+
+            const hoy = new Date();
+
+            // 1. Verificar Adeudos y Vencimientos
+            if(clienta.adeudos && clienta.adeudos.length > 0) {
+                tieneDeuda = true;
+                clienta.adeudos.forEach(a => {
+                    const fVenta = new Date(a.fechaVenta);
+                    const fLimite = new Date(fVenta.getTime() + (a.limiteDias * 24 * 60 * 60 * 1000));
+                    if(hoy > fLimite && a.saldo > 0) {
+                        tieneVencida = true;
+                        const diff = Math.floor((hoy - fLimite) / (1000 * 60 * 60 * 24));
+                        if(diff > diasVencidaMax) diasVencidaMax = diff;
+                    }
+                });
+            }
+
+            // 2. Verificar Inactividad (Último movimiento de compra o adeudo)
+            let ultimaFecha = null;
+            clienta.historial.forEach(h => {
+                if(h.tipo === 'compra' || h.tipo === 'adeudo') {
+                    const f = new Date(h.fecha);
+                    if(!ultimaFecha || f > ultimaFecha) ultimaFecha = f;
+                }
+            });
+            if(ultimaFecha) {
+                diasInactiva = Math.floor((hoy - ultimaFecha) / (1000 * 60 * 60 * 24));
+            } else {
+                diasInactiva = 999; // Sin compras registradas
+            }
+
+            // 3. Verificar Recompras Sugeridas
+            if(clienta.recompras && clienta.recompras.length > 0) {
+                clienta.recompras.forEach(r => {
+                    if(!r.atendida && hoy >= new Date(r.fechaSeguimiento)) {
+                        sugerirRecompra = true;
+                    }
+                });
+            }
+
+            // 4. Verificar Cumpleaños (Siguientes 7 días)
+            if(clienta.cumpleanos) {
+                const c = new Date(clienta.cumpleanos);
+                const cumpleEsteAno = new Date(hoy.getFullYear(), c.getMonth(), c.getDate());
+                const diffCumple = Math.floor((cumpleEsteAno - hoy) / (1000 * 60 * 60 * 24));
+                if(diffCumple >= -1 && diffCumple <= 7) esCumple = true;
+            }
+
+            // Asignación de Prioridad de Estatus para el Semáforo
+            if(tieneVencida) status = "vencida";
+            else if(tieneDeuda) status = "deuda";
+            else if(diasInactiva > 40) status = "inactiva";
+            else if(sugerirRecompra) status = "recompra";
+            else if(esCumple) status = "cumple";
+
+            return { status, diasInactiva, diasVencidaMax, tieneDeuda, tieneVencida, sugerirRecompra, esCumple };
+        }
+
+        function actualizarTodo() {
+            recalcularNiveles();
+            renderDashboard();
+            renderClientas();
+            renderRetos();
+            renderReportes();
+        }
+
+        function recalcularNiveles() {
+            // El sistema actualiza los niveles de manera inteligente basados en frecuencia, montos o mensualidades
+            const hoy = new Date();
+            DATA.clientas.forEach(c => {
+                let comprasMesActual = 0;
+                let totalMonto = c.comprasAcumuladas || 0;
+                let conteoCompras = c.historial.filter(h => h.tipo === 'compra' || h.tipo === 'adeudo').length;
+
+                // Verificar si compró el último mes para criterio VIP
+                let comproEsteMes = false;
+                c.historial.forEach(h => {
+                    if(h.tipo === 'compra' || h.tipo === 'adeudo') {
+                        const diffMili = hoy - new Date(h.fecha);
+                        if(diffMili / (1000 * 60 * 60 * 24) <= 30) comproEsteMes = true;
+                    }
+                });
+
+                if(comproEsteMes && conteoCompras >= 3) c.nivel = "VIP";
+                else if(conteoCompras >= 4 || totalMonto > 1500) c.nivel = "ORO";
+                else if(conteoCompras >= 2) c.nivel = "PLATA";
+                else c.nivel = "BRONCE";
+            });
+            saveToLocalStorage();
+        }
+
+        // --- RENDERIZADO DEL DASHBOARD ---
+        function renderDashboard() {
+            let vencidas = 0, deuda = 0, inactivas = 0, regalos = 0, vip = 0, cumple = 0;
+
+            DATA.clientas.forEach(c => {
+                const info = calcularEstadosYAlertas(c);
+                if(info.tieneVencida) vencidas++;
+                if(info.tieneDeuda) deuda++;
+                if(info.diasInactiva > 40) inactivas++;
+                if(c.regaloPendiente) regalos++;
+                if(c.nivel === 'VIP') vip++;
+                if(info.esCumple) cumple++;
+            });
+
+            document.getElementById('count-vencidas').innerText = vencidas;
+            document.getElementById('count-deuda').innerText = deuda;
+            document.getElementById('count-inactivas').innerText = inactivas;
+            document.getElementById('count-regalos').innerText = regalos;
+            document.getElementById('count-vip').innerText = vip;
+            document.getElementById('count-cumple').innerText = cumple;
+        }
+
+        // --- RENDERIZADO DE LISTA PRINCIPAL (ORDENADA POR SEMÁFORO) ---
+        function renderClientas() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const container = document.getElementById('main-client-list');
+            container.innerHTML = "";
+
+            // Mapeo de pesos para el orden estricto del semáforo
+            const pesoStatus = { "vencida": 1, "deuda": 2, "inactiva": 3, "recompra": 4, "cumple": 5, "sano": 6 };
+
+            let listado = DATA.clientas.map(c => {
+                return { data: c, info: calcularEstadosYAlertas(c) };
+            });
+
+            // Filtrar buscador inteligente
+            if(query) {
+                listado = listado.filter(item => 
+                    item.data.nombre.toLowerCase().includes(query) || 
+                    item.data.telefono.includes(query) || 
+                    item.data.observaciones.toLowerCase().includes(query)
+                );
+            }
+
+            // Ordenar automáticamente
+            listado.sort((a, b) => pesoStatus[a.info.status] - pesoStatus[b.info.status]);
+
+            if(listado.length === 0) {
+                container.innerHTML = `<p style="text-align:center; font-size:0.85rem; color:var(--text-light); padding:20px;">No se encontraron clientas 💋</p>`;
+                return;
+            }
+
+            listado.forEach(item => {
+                const c = item.data;
+                const inf = item.info;
+
+                let saldoPendiente = c.adeudos.reduce((sum, a) => sum + a.saldo, 0);
+                
+                let statusLabel = "✅ Al día";
+                let classLabel = "ind-sano";
+                if(inf.status === 'vencida') { statusLabel = `🔴 Venció hace ${inf.diasVencidaMax} días`; classLabel="ind-vencida"; }
+                else if(inf.status === 'deuda') { statusLabel = `🟠 Debe: $${saldoPendiente}`; classLabel="ind-deuda"; }
+                else if(inf.status === 'inactiva') { statusLabel = `💤 ${inf.diasInactiva} días sin comprar`; classLabel="ind-inactiva"; }
+                else if(inf.status === 'recompra') { statusLabel = `🔔 Recompra Sugerida`; classLabel="ind-recompra"; }
+                else if(inf.status === 'cumple') { statusLabel = `🎂 ¡Cumpleaños cerca!`; classLabel="ind-cumple"; }
+
+                const card = document.createElement('div');
+                card.className = `client-card status-${inf.status}`;
+                card.onclick = () => openExpediente(c.id);
+
+                let estrellasStr = "⭐".repeat(c.estrellas || 0) + "☆".repeat(5 - (c.estrellas || 0));
+                if(c.regaloPendiente) estrellasStr += " 🎁";
+
+                card.innerHTML = `
+                    <div class="client-info">
+                        <h3>${c.nombre}</h3>
+                        <p>📱 ${c.telefono}</p>
+                        <p style="font-size:0.75rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">📌 ${c.observaciones || 'Sin notas adicionales'}</p>
+                        <span class="client-badge badge-${c.nivel.toLowerCase()}">${c.nivel}</span>
+                    </div>
+                    <div class="client-meta">
+                        <span class="client-status-indicator ${classLabel}">${statusLabel}</span>
+                        <div class="stars-container">${estrellasStr}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- CRUD CLIENTAS ---
+        function saveCliente(e) {
+            e.preventDefault();
+            const name = document.getElementById('cli-nombre').value;
+            const tel = document.getElementById('cli-telefono').value;
+            const cumple = document.getElementById('cli-cumple').value;
+            const obs = document.getElementById('cli-observaciones').value;
+
+            const nuevo = {
+                id: "cli-" + Date.now(),
+                nombre: name,
+                telefono: tel,
+                cumpleanos: cumple,
+                observaciones: obs,
+                estrellas: 0,
+                regaloPendiente: false,
+                comprasAcumuladas: 0,
+                nivel: "BRONCE",
+                adeudos: [],
+                historial: [],
+                recompras: []
+            };
+
+            DATA.clientas.push(nuevo);
+            saveToLocalStorage();
+            closeModal('modal-cliente');
+            document.getElementById('form-cliente').reset();
+            showToast("✅ Clienta registrada hermosamente");
+            actualizarTodo();
+        }
+
+        // --- EXPEDIENTE COMPLETO E INYECTORES ---
+        function openExpediente(id) {
+            currentClientaId = id;
+            const c = DATA.clientas.find(item => item.id === id);
+            if(!c) return;
+
+            document.getElementById('exp-nombre-titulo').innerText = "💋 " + c.nombre;
+            document.getElementById('exp-tel').innerText = c.telefono;
+            document.getElementById('exp-cumple').innerText = c.cumpleanos || "No registrado";
+            document.getElementById('exp-notas').innerText = c.observaciones || "Ninguna";
+            
+            let saldoPendiente = c.adeudos.reduce((sum, a) => sum + a.saldo, 0);
+            document.getElementById('exp-saldo-total').innerText = `$${saldoPendiente}`;
+            document.getElementById('exp-acumulado').innerText = `$${c.comprasAcumuladas || 0}`;
+
+            // Badge Nivel
+            const b = document.getElementById('exp-nivel');
+            b.className = `client-badge badge-${c.nivel.toLowerCase()}`;
+            b.innerText = c.nivel;
+
+            // Estrellas
+            let estrellasStr = "⭐".repeat(c.estrellas || 0) + "☆".repeat(5 - (c.estrellas || 0));
+            if(c.regaloPendiente) estrellasStr += " 🎁 ¡REGALO ACUMULADO!";
+            document.getElementById('exp-fidelidad-estrellas').innerText = estrellasStr;
+
+            // Ocultar abono si no debe nada
+            document.getElementById('btn-abonar-exp').style.display = saldoPendiente > 0 ? "flex" : "none";
+
+            // Inyectar Historial
+            const histContainer = document.getElementById('exp-historial-list');
+            histContainer.innerHTML = "";
+            if(!c.historial || c.historial.length === 0) {
+                histContainer.innerHTML = `<p style="font-size:0.75rem; color:var(--text-light)">Sin movimientos en su cuenta.</p>`;
+            } else {
+                [...c.historial].reverse().forEach(h => {
+                    const item = document.createElement('div');
+                    item.className = `historial-item type-${h.tipo}`;
+                    item.innerHTML = `
+                        <div>
+                            <p><strong>[${h.marca || 'NanyKiss'}]</strong> ${h.detalle}</p>
+                            <span style="font-size:0.65rem; color:var(--text-light)">📅 ${h.fecha}</span>
+                        </div>
+                        <div style="font-weight:700">$${h.monto}</div>
+                    `;
+                    histContainer.appendChild(item);
+                });
+            }
+
+            // Inyectar Retos en Expediente
+            const retosContainer = document.getElementById('exp-retos-puntos');
+            retosContainer.innerHTML = "";
+            if(DATA.retos.length === 0) {
+                retosContainer.innerHTML = "No hay campañas activas actualmente.";
+            } else {
+                DATA.retos.forEach(r => {
+                    // Contar cuántas compras de la marca corresponden en el historial
+                    let comprasDeMarca = c.historial.filter(h => (h.tipo === 'compra' || h.tipo === 'adeudo') && h.marca.toLowerCase() === r.nombre.toLowerCase().replace('reto ', '').trim()).length;
+                    let progreso = Math.min(comprasDeMarca, r.meta);
+                    retosContainer.innerHTML += `<p> ${r.emoji} <strong>${r.nombre}:</strong> ${progreso}/${r.meta} para ganar ${r.premio}</p>`;
+                });
+            }
+
+            // Inyectar Botones de WhatsApp Automatizados
+            renderWhatsAppActions(c, saldoPendiente);
+
+            openModal('modal-expediente');
+        }
+
+        // --- GENERADOR DE RESPUESTAS AUTOMÁTICAS DE WHATSAPP ---
+        function renderWhatsAppActions(clienta, saldo) {
+            const container = document.getElementById('wa-actions-container');
+            container.innerHTML = "";
+
+            // Buscar recompra sugerida activa
+            let recompraActiva = clienta.recompras ? clienta.recompras.find(r => !r.atendida) : null;
+
+            // Listado de configuraciones rápidas
+            const acciones = [
+                { id: 'cobranza', label: '💰 Cobranza', valid: saldo > 0 },
+                { id: 'regalo', label: '🎁 Regalo Pendiente', valid: clienta.regaloPendiente },
+                { id: 'recompra', label: '🔔 Recompra Sugerida', valid: recompraActiva !== null },
+                { id: 'cumple', label: '🎂 Cumpleaños', valid: true },
+                { id: 'promo', label: '💄 Promoción', valid: true },
+                { id: 'seguimiento', label: '✨ Seguimiento', valid: true }
+            ];
+
+            acciones.forEach(act => {
+                if(act.valid) {
+                    const btn = document.createElement('button');
+                    btn.className = "btn-wa";
+                    btn.innerText = act.label;
+                    btn.onclick = () => enviarWhatsApp(clienta, act.id, recompraActiva);
+                    container.appendChild(btn);
+                }
+            });
+        }
+
+        function enviarWhatsApp(clienta, tipo, recompraObj) {
+            let texto = "";
+            let baseTemplate = "";
+
+            if(tipo === 'cobranza') {
+                let detallesDeuda = clienta.adeudos.map(a => `${a.producto} (${a.marca})`).join(', ');
+                baseTemplate = DATA.ajustes.msgCobranza;
+                texto = baseTemplate
+                    .replace('[CLIENTA]', clienta.nombre)
+                    .replace('[SALDO]', `$${clienta.adeudos.reduce((s,a)=>s+a.saldo, 0)}`)
+                    .replace('[DETALLE]', detallesDeuda)
+                    .replace('[TARJETA]', DATA.ajustes.tarjeta)
+                    .replace('[BANCO]', DATA.ajustes.banco)
+                    .replace('[TITULAR]', DATA.ajustes.titular);
+            } else if(tipo === 'recompra' && recompraObj) {
+                baseTemplate = DATA.ajustes.msgRecompra;
+                texto = baseTemplate
+                    .replace('[CLIENTA]', clienta.nombre)
+                    .replace('[PRODUCTO]', recompraObj.producto)
+                    .replace('[MARCA]', recompraObj.marca);
+                
+                // Marcar como atendida al enviar el mensaje
+                recompraObj.atendida = true;
+                saveToLocalStorage();
+            } else if(tipo === 'regalo') {
+                texto = `¡Hola ${clienta.nombre}! 🎁💋 Pasaba a avisarte que tienes un regalo pendiente por haber llenado tus 5 estrellas de fidelidad con tus compras. ¡Avísame cuándo nos vemos para entregártelo! ✨`;
+            } else if(tipo === 'cumple') {
+                texto = `¡Feliz Cumpleaños ${clienta.nombre}! 🎂🥳 Que pases un día hermoso lleno de bendiciones. Como eres una clienta súper especial para mí, en tu siguiente compra de catálogo tienes un regalo sorpresa. ¡Un abrazo fuerte! 💋💖`;
+            } else if(tipo === 'promo') {
+                texto = `¡Hola ${clienta.nombre}! 💄 Te cuento que esta semana tengo lanzamientos y ofertas increíbles en cosméticos, skincare y hogar. Si necesitas ver los catálogos digitales avísame y te los mando. 🛍️✨`;
+            } else {
+                texto = `¡Hola ${clienta.nombre}! ✨ Espero que estés muy bien. Te escribía para darte las gracias por tu preferencia y saber si todo marchó excelente con tus últimos productos. ¡Cualquier cosita quedo a tus órdenes! 💋`;
+            }
+
+            const url = `https://wa.me/${clienta.telefono}?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
+        }
+
+        // --- SISTEMA DE REGISTRO DE VENTAS ---
+        function openVentaModal() {
+            document.getElementById('vta-fecha').value = new Date().toISOString().split('T')[0];
+            openModal('modal-venta');
+        }
+
+        function toggleMontoInicial() {
+            const cond = document.getElementById('vta-condicion').value;
+            document.getElementById('group-enganche').style.display = (cond === 'parcial') ? 'block' : 'none';
+        }
+
+        function saveVenta(e) {
+            e.preventDefault();
+            const clienta = DATA.clientas.find(item => item.id === currentClientaId);
+            if(!clienta) return;
+
+            const marca = document.getElementById('vta-marca').value;
+            const producto = document.getElementById('vta-producto').value;
+            const monto = parseFloat(document.getElementById('vta-monto').value);
+            const fecha = document.getElementById('vta-fecha').value;
+            const condicion = document.getElementById('vta-condicion').value;
+            const recompraDias = parseInt(document.getElementById('vta-recompra-dias').value);
+            const limiteDias = parseInt(document.getElementById('vta-limite-dias').value);
+
+            let enganche = 0;
+            let saldo = 0;
+
+            if(condicion === 'contado') {
+                enganche = monto;
+                saldo = 0;
+            } else if(condicion === 'parcial') {
+                enganche = parseFloat(document.getElementById('vta-enganche').value) || 0;
+                saldo = monto - enganche;
+            } else {
+                enganche = 0;
+                saldo = monto;
+            }
+
+            // 1. Guardar en Historial General de la Clienta
+            clienta.historial.push({
+                fecha: fecha,
+                tipo: saldo > 0 ? "adeudo" : "compra",
+                marca: marca,
+                detalle: `${producto} (${condicion === 'contado' ? 'Contado' : 'A Crédito'})`,
+                monto: monto
+            });
+
+            // 2. Si tiene saldo, inyectar a tabla de adeudos
+            if(saldo > 0) {
+                clienta.adeudos.push({
+                    marca: marca,
+                    producto: producto,
+                    total: monto,
+                    saldo: saldo,
+                    fechaVenta: fecha,
+                    limiteDias: limiteDias
+                });
+            }
+
+            // 3. Acumuladores Matemáticos Financieros
+            clienta.comprasAcumuladas = (clienta.comprasAcumuladas || 0) + monto;
+
+            // 4. Regla de Estrellas de Fidelidad: Cada compra = 1 Estrella (No acumulable si ya tiene regalo trancado)
+            if(!clienta.regaloPendiente) {
+                clienta.estrellas = (clienta.estrellas || 0) + 1;
+                if(clienta.estrellas >= 5) {
+                    clienta.regaloPendiente = true;
+                    regaloTriggerId = clienta.id;
+                    // Forzar aviso visual de regalo de manera elegante
+                    setTimeout(() => {
+                        document.getElementById('txt-alerta-regalo-msg').innerText = `${clienta.nombre} ha completado sus 5 compras.`;
+                        openModal('modal-alerta-regalo');
+                    }, 400);
+                }
+            } else {
+                // Compra número 6 o posterior teniendo regalo atorado
+                regaloTriggerId = clienta.id;
+                setTimeout(() => {
+                    document.getElementById('txt-alerta-regalo-msg').innerText = `${clienta.nombre} sigue teniendo un regalo pendiente de entrega.`;
+                    openModal('modal-alerta-regalo');
+                }, 400);
+            }
+
+            // 5. Automatización de alertas de Recompra futura
+            if(recompraDias > 0) {
+                const fVenta = new Date(fecha);
+                const fSeguimiento = new Date(fVenta.getTime() + (recompraDias * 24 * 60 * 60 * 1000));
+                if(!clienta.recompras) clienta.recompras = [];
+                clienta.recompras.push({
+                    marca: marca,
+                    producto: producto,
+                    fechaSeguimiento: fSeguimiento.toISOString().split('T')[0],
+                    atendida: false
+                });
+            }
+
+            saveToLocalStorage();
+            closeModal('modal-venta');
+            document.getElementById('form-venta').reset();
+            document.getElementById('group-enganche').style.display = 'none';
+            showToast("🛍️ ¡Venta procesada con éxito!");
+            
+            // Refrescar expediente y listas
+            openExpediente(clienta.id);
+            actualizarTodo();
+        }
+
+        // --- CONTROLADOR DE PREMIOS (FIDELIDAD DE 5 ESTRELLAS) ---
+        function procesarEntregaRegalo(seEntrego) {
+            const c = DATA.clientas.find(item => item.id === regaloTriggerId);
+            if(c) {
+                if(seEntrego) {
+                    c.estrellas = 0;
+                    c.regaloPendiente = false;
+                    c.historial.push({
+                        fecha: new Date().toISOString().split('T')[0],
+                        tipo: "regalo",
+                        marca: "NanyKiss",
+                        detalle: "🎁 Regalo de Fidelidad Entregado ✅",
+                        monto: 0
+                    });
+                    showToast("🎁 ¡Premio entregado, tarjeta reiniciada!");
+                } else {
+                    showToast("⏳ Regalo guardado en pendientes");
+                }
+                saveToLocalStorage();
+            }
+            closeModal('modal-alerta-regalo');
+            if(currentClientaId) openExpediente(currentClientaId);
+            actualizarTodo();
+        }
+
+        function checkManualRegalo() {
+            regaloTriggerId = currentClientaId;
+            document.getElementById('txt-alerta-regalo-msg').innerText = "Gestión manual de fidelidad.";
+            openModal('modal-alerta-regalo');
+        }
+
+        // --- SISTEMA DE GESTIÓN DE ABONOS ---
+        function openAbonoModal() {
+            const c = DATA.clientas.find(item => item.id === currentClientaId);
+            const select = document.getElementById('abo-cuenta-index');
+            select.innerHTML = "";
+            
+            if(!c || c.adeudos.length === 0) return;
+
+            c.adeudos.forEach((a, index) => {
+                select.innerHTML += `<option value="${index}">${a.producto} (${a.marca}) - Resta: $${a.saldo}</option>`;
+            });
+
+            openModal('modal-abono');
+        }
+
+        function saveAbono(e) {
+            e.preventDefault();
+            const c = DATA.clientas.find(item => item.id === currentClientaId);
+            if(!c) return;
+
+            const index = document.getElementById('abo-cuenta-index').value;
+            const montoAbono = parseFloat(document.getElementById('abo-monto').value);
+            const cuenta = c.adeudos[index];
+
+            if(!cuenta || montoAbono <= 0) return;
+
+            cuenta.saldo = Math.max(0, cuenta.saldo - montoAbono);
+
+            c.historial.push({
+                fecha: new Date().toISOString().split('T')[0],
+                tipo: "pago",
+                marca: cuenta.marca,
+                detalle: `Abono a: ${cuenta.producto}`,
+                monto: montoAbono
+            });
+
+            // Si se liquidó por completo limpiar de deudas
+            if(cuenta.saldo === 0) {
+                c.adeudos.splice(index, 1);
+                showToast("🎉 ¡Cuenta liquidada en su totalidad!");
+            } else {
+                showToast("💵 Abono registrado en la cuenta");
+            }
+
+            saveToLocalStorage();
+            closeModal('modal-abono');
+            document.getElementById('form-abono').reset();
+            openExpediente(c.id);
+            actualizarTodo();
+        }
+
+        // --- MODULO RETOS ---
+        function saveReto(e) {
+            e.preventDefault();
+            const rName = document.getElementById('ret-nombre').value;
+            const rEmoji = document.getElementById('ret-emoji').value;
+            const rMeta = parseInt(document.getElementById('ret-meta').value);
+            const rPuntos = parseInt(document.getElementById('ret-puntos').value);
+            const rPremio = document.getElementById('ret-premio').value;
+
+            DATA.retos.push({
+                id: "ret-" + Date.now(),
+                nombre: rName,
+                emoji: rEmoji,
+                meta: rMeta,
+                puntos: rPuntos,
+                premio: rPremio
+            });
+
+            saveToLocalStorage();
+            closeModal('modal-reto');
+            document.getElementById('form-reto').reset();
+            showToast("🚀 ¡Reto lanzado con éxito!");
+            renderRetos();
+        }
+
+        function renderRetos() {
+            const container = document.getElementById('challenges-list');
+            container.innerHTML = "";
+
+            if(DATA.retos.length === 0) {
+                container.innerHTML = `<p style="text-align:center; font-size:0.85rem; color:var(--text-light); padding:30px;">No tienes retos creados todavía 💋</p>`;
+                return;
+            }
+
+            DATA.retos.forEach(r => {
+                container.innerHTML += `
+                    <div class="challenge-card">
+                        <div class="challenge-header">
+                            <span>${r.emoji} ${r.nombre}</span>
+                            <span style="color:var(--dorado)">💎 +${r.puntos} Ptos</span>
+                        </div>
+                        <p style="font-size:0.75rem; color:var(--text-light)">🎯 <strong>Meta:</strong> Realizar ${r.meta} compras de este catálogo.</p>
+                        <p style="font-size:0.75rem; color:var(--text-dark); margin-top:4px;">🎁 <strong>Premio:</strong> ${r.premio}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- MÓDULO REPORTES ---
+        function renderReportes() {
+            let totalVendido = 0;
+            let totalAdeudo = 0;
+            let activas = 0;
+            let inactivas = 0;
+
+            let b=0, p=0, o=0, v=0;
+
+            DATA.clientas.forEach(c => {
+                const inf = calcularEstadosYAlertas(c);
+                if(inf.diasInactiva > 40) inactivas++; else activas++;
+
+                totalAdeudo += c.adeudos.reduce((s,a)=> s + a.saldo, 0);
+
+                c.historial.forEach(h => {
+                    if(h.tipo === 'compra' || h.tipo === 'adeudo') totalVendido += h.monto;
+                });
+
+                if(c.nivel === 'BRONCE') b++;
+                if(c.nivel === 'PLATA') p++;
+                if(c.nivel === 'ORO') o++;
+                if(c.nivel === 'VIP') v++;
+            });
+
+            document.getElementById('rep-ventas').innerText = `$${totalVendido.toFixed(2)}`;
+            document.getElementById('rep-adeudos').innerText = `$${totalAdeudo.toFixed(2)}`;
+            document.getElementById('rep-cobrado').innerText = `$${(totalVendido - totalAdeudo).toFixed(2)}`;
+            document.getElementById('rep-clientes').innerText = `${activas} / ${inactivas}`;
+
+            document.getElementById('lvl-bronce').innerText = b;
+            document.getElementById('lvl-plata').innerText = p;
+            document.getElementById('lvl-oro').innerText = o;
+            document.getElementById('lvl-vip').innerText = v;
+        }
+
+        // --- AJUSTES DE CONFIGURACIÓN ---
+        function initAjustesForm() {
+            document.getElementById('cfg-nombre').value = DATA.ajustes.nombre || "";
+            document.getElementById('cfg-tel').value = DATA.ajustes.telefono || "";
+            document.getElementById('cfg-banco').value = DATA.ajustes.banco || "";
+            document.getElementById('cfg-titular').value = DATA.ajustes.titular || "";
+            document.getElementById('cfg-tarjeta').value = DATA.ajustes.tarjeta || "";
+            document.getElementById('cfg-msg-cobranza').value = DATA.ajustes.msgCobranza || "";
+            document.getElementById('cfg-msg-recompra').value = DATA.ajustes.msgRecompra || "";
+        }
+
+        function saveAjustes(e) {
+            e.preventDefault();
+            DATA.ajustes.nombre = document.getElementById('cfg-nombre').value;
+            DATA.ajustes.telefono = document.getElementById('cfg-tel').value;
+            DATA.ajustes.banco = document.getElementById('cfg-banco').value;
+            DATA.ajustes.titular = document.getElementById('cfg-titular').value;
+            DATA.ajustes.tarjeta = document.getElementById('cfg-tarjeta').value;
+            DATA.ajustes.msgCobranza = document.getElementById('cfg-msg-cobranza').value;
+            DATA.ajustes.msgRecompra = document.getElementById('cfg-msg-recompra').value;
+
+            saveToLocalStorage();
+            showToast("⚙️ Configuración guardada correctamente");
+        }
+
+        // --- EXPORTACIÓN E IMPORTACIÓN JSON (RESPALDO SEGURO) ---
+        function exportarDatos() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DATA));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `NanyKiss_Respaldo_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast("📤 Archivo de respaldo descargado");
+        }
+
+        function importarDatos(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const parsed = JSON.parse(evt.target.result);
+                    if(parsed.clientas && parsed.ajustes) {
+                        DATA = parsed;
+                        saveToLocalStorage();
+                        initAjustesForm();
+                        actualizarTodo();
+                        showToast("📥 Datos respaldados cargados con éxito");
+                    } else {
+                        alert("El archivo no contiene un formato válido de Nany Kiss.");
+                    }
+                } catch(err) {
+                    alert("Error leyendo el archivo JSON.");
+                }
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
