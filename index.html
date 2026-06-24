@@ -1104,14 +1104,12 @@
         }
 
         function recalcularNiveles() {
-            // El sistema actualiza los niveles de manera inteligente basados en frecuencia, montos o mensualidades
             const hoy = new Date();
             DATA.clientas.forEach(c => {
                 let comprasMesActual = 0;
                 let totalMonto = c.comprasAcumuladas || 0;
                 let conteoCompras = c.historial.filter(h => h.tipo === 'compra' || h.tipo === 'adeudo').length;
 
-                // Verificar si compró el último mes para criterio VIP
                 let comproEsteMes = false;
                 c.historial.forEach(h => {
                     if(h.tipo === 'compra' || h.tipo === 'adeudo') {
@@ -1150,20 +1148,18 @@
             document.getElementById('count-cumple').innerText = cumple;
         }
 
-        // --- RENDERIZADO DE LISTA PRINCIPAL (ORDENADA POR SEMÁFORO) ---
+        // --- RENDERIZADO DE LISTA PRINCIPAL ---
         function renderClientas() {
             const query = document.getElementById('search-input').value.toLowerCase();
             const container = document.getElementById('main-client-list');
             container.innerHTML = "";
 
-            // Mapeo de pesos para el orden estricto del semáforo
             const pesoStatus = { "vencida": 1, "deuda": 2, "inactiva": 3, "recompra": 4, "cumple": 5, "sano": 6 };
 
             let listado = DATA.clientas.map(c => {
                 return { data: c, info: calcularEstadosYAlertas(c) };
             });
 
-            // Filtrar buscador inteligente
             if(query) {
                 listado = listado.filter(item => 
                     item.data.nombre.toLowerCase().includes(query) || 
@@ -1172,7 +1168,6 @@
                 );
             }
 
-            // Ordenar automáticamente
             listado.sort((a, b) => pesoStatus[a.info.status] - pesoStatus[b.info.status]);
 
             if(listado.length === 0) {
@@ -1263,20 +1258,16 @@
             document.getElementById('exp-saldo-total').innerText = `$${saldoPendiente}`;
             document.getElementById('exp-acumulado').innerText = `$${c.comprasAcumuladas || 0}`;
 
-            // Badge Nivel
             const b = document.getElementById('exp-nivel');
             b.className = `client-badge badge-${c.nivel.toLowerCase()}`;
             b.innerText = c.nivel;
 
-            // Estrellas
             let estrellasStr = "⭐".repeat(c.estrellas || 0) + "☆".repeat(5 - (c.estrellas || 0));
             if(c.regaloPendiente) estrellasStr += " 🎁 ¡REGALO ACUMULADO!";
             document.getElementById('exp-fidelidad-estrellas').innerText = estrellasStr;
 
-            // Ocultar abono si no debe nada
             document.getElementById('btn-abonar-exp').style.display = saldoPendiente > 0 ? "flex" : "none";
 
-            // Inyectar Historial
             const histContainer = document.getElementById('exp-historial-list');
             histContainer.innerHTML = "";
             if(!c.historial || c.historial.length === 0) {
@@ -1296,23 +1287,19 @@
                 });
             }
 
-            // Inyectar Retos en Expediente
             const retosContainer = document.getElementById('exp-retos-puntos');
             retosContainer.innerHTML = "";
             if(DATA.retos.length === 0) {
                 retosContainer.innerHTML = "No hay campañas activas actualmente.";
             } else {
                 DATA.retos.forEach(r => {
-                    // Contar cuántas compras de la marca corresponden en el historial
                     let comprasDeMarca = c.historial.filter(h => (h.tipo === 'compra' || h.tipo === 'adeudo') && h.marca.toLowerCase() === r.nombre.toLowerCase().replace('reto ', '').trim()).length;
                     let progreso = Math.min(comprasDeMarca, r.meta);
                     retosContainer.innerHTML += `<p> ${r.emoji} <strong>${r.nombre}:</strong> ${progreso}/${r.meta} para ganar ${r.premio}</p>`;
                 });
             }
 
-            // Inyectar Botones de WhatsApp Automatizados
             renderWhatsAppActions(c, saldoPendiente);
-
             openModal('modal-expediente');
         }
 
@@ -1321,10 +1308,8 @@
             const container = document.getElementById('wa-actions-container');
             container.innerHTML = "";
 
-            // Buscar recompra sugerida activa
             let recompraActiva = clienta.recompras ? clienta.recompras.find(r => !r.atendida) : null;
 
-            // Listado de configuraciones rápidas
             const acciones = [
                 { id: 'cobranza', label: '💰 Cobranza', valid: saldo > 0 },
                 { id: 'regalo', label: '🎁 Regalo Pendiente', valid: clienta.regaloPendiente },
@@ -1345,6 +1330,7 @@
             });
         }
 
+        // CORRECCIÓN: Envío forzado mediante protocolo nativo 'whatsapp://' para priorizar WhatsApp Personal
         function enviarWhatsApp(clienta, tipo, recompraObj) {
             let texto = "";
             let baseTemplate = "";
@@ -1366,7 +1352,6 @@
                     .replace('[PRODUCTO]', recompraObj.producto)
                     .replace('[MARCA]', recompraObj.marca);
                 
-                // Marcar como atendida al enviar el mensaje
                 recompraObj.atendida = true;
                 saveToLocalStorage();
             } else if(tipo === 'regalo') {
@@ -1379,8 +1364,9 @@
                 texto = `¡Hola ${clienta.nombre}! ✨ Espero que estés muy bien. Te escribía para darte las gracias por tu preferencia y saber si todo marchó excelente con tus últimos productos. ¡Cualquier cosita quedo a tus órdenes! 💋`;
             }
 
-            const url = `https://wa.me/${clienta.telefono}?text=${encodeURIComponent(texto)}`;
-            window.open(url, '_blank');
+            // Uso de deep link nativo 'whatsapp://send' para puentear WhatsApp Business en el dispositivo
+            const url = `whatsapp://send?phone=${clienta.telefono}&text=${encodeURIComponent(texto)}`;
+            window.location.href = url;
         }
 
         // --- SISTEMA DE REGISTRO DE VENTAS ---
@@ -1421,7 +1407,6 @@
                 saldo = monto;
             }
 
-            // 1. Guardar en Historial General de la Clienta
             clienta.historial.push({
                 fecha: fecha,
                 tipo: saldo > 0 ? "adeudo" : "compra",
@@ -1430,7 +1415,6 @@
                 monto: monto
             });
 
-            // 2. Si tiene saldo, inyectar a tabla de adeudos
             if(saldo > 0) {
                 clienta.adeudos.push({
                     marca: marca,
@@ -1442,23 +1426,19 @@
                 });
             }
 
-            // 3. Acumuladores Matemáticos Financieros
             clienta.comprasAcumuladas = (clienta.comprasAcumuladas || 0) + monto;
 
-            // 4. Regla de Estrellas de Fidelidad: Cada compra = 1 Estrella (No acumulable si ya tiene regalo trancado)
             if(!clienta.regaloPendiente) {
                 clienta.estrellas = (clienta.estrellas || 0) + 1;
                 if(clienta.estrellas >= 5) {
                     clienta.regaloPendiente = true;
                     regaloTriggerId = clienta.id;
-                    // Forzar aviso visual de regalo de manera elegante
                     setTimeout(() => {
                         document.getElementById('txt-alerta-regalo-msg').innerText = `${clienta.nombre} ha completado sus 5 compras.`;
                         openModal('modal-alerta-regalo');
                     }, 400);
                 }
             } else {
-                // Compra número 6 o posterior teniendo regalo atorado
                 regaloTriggerId = clienta.id;
                 setTimeout(() => {
                     document.getElementById('txt-alerta-regalo-msg').innerText = `${clienta.nombre} sigue teniendo un regalo pendiente de entrega.`;
@@ -1466,7 +1446,6 @@
                 }, 400);
             }
 
-            // 5. Automatización de alertas de Recompra futura
             if(recompraDias > 0) {
                 const fVenta = new Date(fecha);
                 const fSeguimiento = new Date(fVenta.getTime() + (recompraDias * 24 * 60 * 60 * 1000));
@@ -1485,12 +1464,11 @@
             document.getElementById('group-enganche').style.display = 'none';
             showToast("🛍️ ¡Venta procesada con éxito!");
             
-            // Refrescar expediente y listas
             openExpediente(clienta.id);
             actualizarTodo();
         }
 
-        // --- CONTROLADOR DE PREMIOS (FIDELIDAD DE 5 ESTRELLAS) ---
+        // --- CONTROLADOR DE PREMIOS ---
         function procesarEntregaRegalo(seEntrego) {
             const c = DATA.clientas.find(item => item.id === regaloTriggerId);
             if(c) {
@@ -1521,7 +1499,7 @@
             openModal('modal-alerta-regalo');
         }
 
-        // --- SISTEMA DE GESTIÓN DE ABONOS ---
+        // --- GESTIÓN DE ABONOS ---
         function openAbonoModal() {
             const c = DATA.clientas.find(item => item.id === currentClientaId);
             const select = document.getElementById('abo-cuenta-index');
@@ -1557,7 +1535,6 @@
                 monto: montoAbono
             });
 
-            // Si se liquidó por completo limpiar de deudas
             if(cuenta.saldo === 0) {
                 c.adeudos.splice(index, 1);
                 showToast("🎉 ¡Cuenta liquidada en su totalidad!");
@@ -1626,7 +1603,6 @@
             let totalAdeudo = 0;
             let activas = 0;
             let inactivas = 0;
-
             let b=0, p=0, o=0, v=0;
 
             DATA.clientas.forEach(c => {
@@ -1681,7 +1657,7 @@
             showToast("⚙️ Configuración guardada correctamente");
         }
 
-        // --- EXPORTACIÓN E IMPORTACIÓN JSON (RESPALDO SEGURO) ---
+        // --- EXPORTACIÓN E IMPORTACIÓN JSON ---
         function exportarDatos() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DATA));
             const downloadAnchor = document.createElement('a');
