@@ -201,7 +201,6 @@
 
     <div class="container">
         
-        <!-- ===== VISTA INICIO ===== -->
         <div id="view-inicio" class="view-panel active">
             <div class="dashboard" id="dashboard-counts">
                 <div class="dash-card vencidas"><span class="count" id="count-vencidas">0</span><span class="label">🔴 Vencidas</span></div>
@@ -221,7 +220,6 @@
             <div class="client-list" id="main-client-list"></div>
         </div>
 
-        <!-- ===== VISTA RETOS ===== -->
         <div id="view-retos" class="view-panel">
             <div class="section-title">
                 <span>🎯 Campañas y Retos</span>
@@ -230,7 +228,6 @@
             <div id="challenges-list"></div>
         </div>
 
-        <!-- ===== VISTA REPORTES ===== -->
         <div id="view-reportes" class="view-panel">
             <div class="section-title"><span>📊 Resumen Financiero</span></div>
             <div class="report-grid">
@@ -253,7 +250,6 @@
             </div>
         </div>
 
-        <!-- ===== VISTA AJUSTES ===== -->
         <div id="view-ajustes" class="view-panel">
             <div class="section-title"><span>⚙️ Configuración</span></div>
 
@@ -317,6 +313,30 @@
                     <textarea id="cfg-msg-entrega-premio" class="form-control" rows="3"></textarea>
                 </div>
 
+                <div class="plantilla-section">
+                    <div class="plantilla-header"><strong style="font-size:0.85rem;">🛍️ Venta Registrada</strong></div>
+                    <div style="margin-bottom:6px;"><span class="vars-chip">{cliente}</span><span class="vars-chip">{producto}</span><span class="vars-chip">{monto}</span><span class="vars-chip">{fecha}</span><span class="vars-chip">{nivel}</span></div>
+                    <textarea id="cfg-msg-venta-registrada" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="plantilla-section">
+                    <div class="plantilla-header"><strong style="font-size:0.85rem;">💵 Pago Recibido (Abono Parcial)</strong></div>
+                    <div style="margin-bottom:6px;"><span class="vars-chip">{cliente}</span><span class="vars-chip">{monto}</span><span class="vars-chip">{saldo}</span><span class="vars-chip">{fecha}</span></div>
+                    <textarea id="cfg-msg-pago-recibido" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="plantilla-section">
+                    <div class="plantilla-header"><strong style="font-size:0.85rem;">✅ Pago Liquidado (Saldo Cero)</strong></div>
+                    <div style="margin-bottom:6px;"><span class="vars-chip">{cliente}</span><span class="vars-chip">{fecha}</span></div>
+                    <textarea id="cfg-msg-pago-liquidado" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div class="plantilla-section">
+                    <div class="plantilla-header"><strong style="font-size:0.85rem;">🌸 Avance de Fidelidad</strong></div>
+                    <div style="margin-bottom:6px;"><span class="vars-chip">{cliente}</span><span class="vars-chip">{compras}</span><span class="vars-chip">{compras_faltantes}</span><span class="vars-chip">{nivel}</span></div>
+                    <textarea id="cfg-msg-fidelidad" class="form-control" rows="3"></textarea>
+                </div>
+
                 <button class="btn btn-primary" style="width:100%; margin-top:5px;" onclick="savePlantillas()">💾 Guardar Plantillas</button>
             </div>
 
@@ -333,11 +353,7 @@
             </div>
         </div>
 
-    </div><!-- /container -->
-
-
-    <!-- ===== MODAL NUEVA CLIENTA ===== -->
-    <div id="modal-cliente" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    </div><div id="modal-cliente" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <div class="modal-header"><h2>✨ Registrar Clienta</h2><button class="modal-close" onclick="closeModal('modal-cliente')">✕</button></div>
             <form id="form-cliente" onsubmit="saveCliente(event)">
@@ -350,17 +366,30 @@
         </div>
     </div>
 
-    <!-- ===== MODAL EXPEDIENTE ===== -->
     <div id="modal-expediente" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content" style="max-height: 90vh;">
             <div class="modal-header">
                 <h2 id="exp-nombre-titulo">Expediente</h2>
-                <button class="modal-close" onclick="closeModal('modal-expediente')">✕</button>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="btn btn-secondary btn-icon" onclick="abrirEditarClienta()" title="Editar">✏️</button>
+                    <button class="btn btn-danger btn-icon" onclick="eliminarClienta()" title="Eliminar">🗑️</button>
+                    <button class="modal-close" onclick="closeModal('modal-expediente')">✕</button>
+                </div>
             </div>
             <div class="expediente-header">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                     <span id="exp-nivel" class="client-badge badge-bronce">BRONCE</span>
                     <span id="exp-fidelidad-estrellas" class="stars-container">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div id="exp-fidelidad-barra" style="background:white;border-radius:12px;padding:10px;margin-top:4px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <span style="font-size:0.75rem;font-weight:700;">🎁 Programa de Fidelidad</span>
+                        <span id="exp-fidelidad-texto" style="font-size:0.72rem;color:var(--text-light);"></span>
+                    </div>
+                    <div style="display:flex;gap:4px;" id="exp-fidelidad-puntos"></div>
+                    <div id="exp-regalo-btn-container" style="display:none;margin-top:8px;">
+                        <button class="btn btn-primary" style="width:100%;padding:8px;" onclick="entregarRegaloFidelidad()">🎁 Entregar Regalo</button>
+                    </div>
                 </div>
                 <div class="expediente-grid">
                     <div>📞 <strong>Tel:</strong> <span id="exp-tel"></span></div>
@@ -373,7 +402,7 @@
             <div class="expediente-actions">
                 <button class="btn btn-primary btn-sm" onclick="openVentaModal()">🛍️ + Venta</button>
                 <button class="btn btn-secondary btn-sm" id="btn-abonar-exp" onclick="openAbonoModal()">💵 + Abono</button>
-                <button class="btn btn-secondary btn-sm" style="background:#FFE0B2" onclick="checkManualRegalo()">🎁 Regalo</button>
+                <button class="btn btn-secondary btn-sm" style="background:#FFE0B2;color:#6D4C00;" onclick="checkManualRegalo()">🎁 Fidelidad</button>
             </div>
 
             <p style="font-size:0.75rem; font-weight:600; margin-bottom:5px;">💬 WhatsApp Rápido</p>
@@ -382,22 +411,26 @@
             <p style="font-size:0.75rem; font-weight:600; margin-top:15px; margin-bottom:5px;">🎯 Retos Activos</p>
             <div id="exp-retos-puntos"></div>
 
+            <div id="exp-adeudos-section" style="display:none;margin-top:15px;">
+                <p style="font-size:0.75rem; font-weight:600; margin-bottom:5px;">🟠 Adeudos Pendientes</p>
+                <div id="exp-adeudos-list"></div>
+            </div>
+
             <p style="font-size:0.75rem; font-weight:600; margin-top:15px;">📜 Historial</p>
             <div class="historial-list" id="exp-historial-list"></div>
         </div>
     </div>
 
-    <!-- ===== MODAL VENTA ===== -->
     <div id="modal-venta" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <div class="modal-header"><h2>🛍️ Nueva Venta</h2><button class="modal-close" onclick="closeModal('modal-venta')">✕</button></div>
-            <form id="form-venta" onsubmit="saveVenta(event)">
-                <div class="form-group"><label>Marca / Catálogo</label><input type="text" id="vta-marca" class="form-control" placeholder="Ej: Jafra, Natura, Mary Kay" required></div>
-                <div class="form-group"><label>Producto(s)</label><input type="text" id="vta-producto" class="form-control" placeholder="Ej: Perfume Coreta, Labial Red" required></div>
+            <div id="form-venta">
+                <div class="form-group"><label>Marca / Catálogo</label><input type="text" id="vta-marca" class="form-control" placeholder="Ej: Jafra, Natura, Mary Kay"></div>
+                <div class="form-group"><label>Producto(s)</label><input type="text" id="vta-producto" class="form-control" placeholder="Ej: Perfume Coreta, Labial Red"></div>
                 <div class="form-group"><label>Categoría</label><input type="text" id="vta-categoria" class="form-control" placeholder="Ej: skincare, labial, perfume, hogar"></div>
                 <div class="form-row">
-                    <div class="form-group" style="flex:1;"><label>Monto Total ($) *</label><input type="number" id="vta-monto" class="form-control" required></div>
-                    <div class="form-group" style="flex:1;"><label>Fecha</label><input type="date" id="vta-fecha" class="form-control" required></div>
+                    <div class="form-group" style="flex:1;"><label>Monto Total ($)</label><input type="number" id="vta-monto" class="form-control"></div>
+                    <div class="form-group" style="flex:1;"><label>Fecha</label><input type="date" id="vta-fecha" class="form-control"></div>
                 </div>
                 <div class="form-group"><label>Forma de Pago</label>
                     <select id="vta-condicion" class="form-control" onchange="toggleMontoInicial()">
@@ -411,24 +444,22 @@
                     <div class="form-group" style="flex:1;"><label>Recordar Recompra (Días)</label><input type="number" id="vta-recompra-dias" class="form-control" value="0"></div>
                     <div class="form-group" style="flex:1;"><label>Días Límite de Pago</label><input type="number" id="vta-limite-dias" class="form-control" value="15"></div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">✅ Confirmar Venta</button>
-            </form>
+                <button type="button" class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="saveVenta()">✅ Confirmar Venta</button>
+            </div>
         </div>
     </div>
 
-    <!-- ===== MODAL ABONO ===== -->
     <div id="modal-abono" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <div class="modal-header"><h2>💵 Registrar Abono</h2><button class="modal-close" onclick="closeModal('modal-abono')">✕</button></div>
-            <form id="form-abono" onsubmit="saveAbono(event)">
-                <div class="form-group"><label>Selecciona el Pedido Pendiente</label><select id="abo-cuenta-index" class="form-control" required></select></div>
-                <div class="form-group"><label>Cantidad a Abonar ($)</label><input type="number" id="abo-monto" class="form-control" required></div>
-                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">💰 Aplicar Abono</button>
-            </form>
+            <div id="form-abono">
+                <div class="form-group"><label>Selecciona el Pedido Pendiente</label><select id="abo-cuenta-index" class="form-control"></select></div>
+                <div class="form-group"><label>Cantidad a Abonar ($)</label><input type="number" id="abo-monto" class="form-control"></div>
+                <button type="button" class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="saveAbono()">💰 Aplicar Abono</button>
+            </div>
         </div>
     </div>
 
-    <!-- ===== MODAL CREAR / EDITAR RETO ===== -->
     <div id="modal-reto" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content">
             <div class="modal-header"><h2 id="modal-reto-titulo">🎯 Nueva Campaña</h2><button class="modal-close" onclick="closeModal('modal-reto')">✕</button></div>
@@ -470,7 +501,6 @@
         </div>
     </div>
 
-    <!-- ===== MODAL DETALLE RETO ===== -->
     <div id="modal-reto-detalle" class="modal-overlay" onclick="closeModalOnOverlay(event)">
         <div class="modal-content" style="max-height:90vh;">
             <div class="modal-header">
@@ -490,7 +520,65 @@
         </div>
     </div>
 
-    <!-- ===== MODAL REGALO ===== -->
+
+    <div id="modal-editar-clienta" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header"><h2>✏️ Editar Clienta</h2><button class="modal-close" onclick="closeModal('modal-editar-clienta')">✕</button></div>
+            <div class="form-group"><label>Nombre *</label><input type="text" id="edit-cli-nombre" class="form-control"></div>
+            <div class="form-group"><label>Teléfono WhatsApp</label><input type="number" id="edit-cli-telefono" class="form-control"></div>
+            <div class="form-group"><label>Fecha de Cumpleaños</label><input type="date" id="edit-cli-cumple" class="form-control"></div>
+            <div class="form-group"><label>Notas / Observaciones</label><textarea id="edit-cli-observaciones" class="form-control" rows="3"></textarea></div>
+            <button type="button" class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="guardarEdicionClienta()">💾 Guardar Cambios</button>
+        </div>
+    </div>
+
+    <div id="modal-editar-historial" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header"><h2>✏️ Editar Movimiento</h2><button class="modal-close" onclick="closeModal('modal-editar-historial')">✕</button></div>
+            <input type="hidden" id="edit-hist-index">
+            <div class="form-group"><label>Marca</label><input type="text" id="edit-hist-marca" class="form-control"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="edit-hist-detalle" class="form-control"></div>
+            <div class="form-group"><label>Monto ($)</label><input type="number" id="edit-hist-monto" class="form-control"></div>
+            <div class="form-group"><label>Fecha</label><input type="date" id="edit-hist-fecha" class="form-control"></div>
+            <button type="button" class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="guardarEdicionHistorial()">💾 Guardar</button>
+            <button type="button" class="btn btn-danger" style="width:100%;margin-top:8px;" onclick="eliminarMovimiento()">🗑️ Eliminar Movimiento</button>
+        </div>
+    </div>
+
+    <div id="modal-editar-adeudo" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header"><h2>✏️ Editar Adeudo</h2><button class="modal-close" onclick="closeModal('modal-editar-adeudo')">✕</button></div>
+            <input type="hidden" id="edit-adeudo-index">
+            <div class="form-group"><label>Marca</label><input type="text" id="edit-adeudo-marca" class="form-control"></div>
+            <div class="form-group"><label>Producto</label><input type="text" id="edit-adeudo-producto" class="form-control"></div>
+            <div class="form-group"><label>Saldo Pendiente ($)</label><input type="number" id="edit-adeudo-saldo" class="form-control"></div>
+            <div class="form-group"><label>Días Límite de Pago</label><input type="number" id="edit-adeudo-limite" class="form-control"></div>
+            <button type="button" class="btn btn-primary" style="width:100%;margin-top:10px;" onclick="guardarEdicionAdeudo()">💾 Guardar</button>
+            <button type="button" class="btn btn-danger" style="width:100%;margin-top:8px;" onclick="eliminarAdeudo()">🗑️ Eliminar Adeudo</button>
+        </div>
+    </div>
+    <div id="modal-wa-manual" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header"><h2>💬 Enviar Mensaje</h2><button class="modal-close" onclick="closeModal('modal-wa-manual')">✕</button></div>
+            <p style="font-size:0.8rem;color:var(--text-light);margin-bottom:12px;">Elige el mensaje que deseas enviar:</p>
+            <div style="display:flex;flex-direction:column;gap:8px;" id="wa-manual-botones"></div>
+        </div>
+    </div>
+
+    <div id="modal-resultado" class="modal-overlay" style="z-index:112;">
+        <div class="modal-content" style="text-align:center;padding:25px 20px;">
+            <span id="resultado-emoji" style="font-size:3rem;">✅</span>
+            <h2 id="resultado-titulo" style="margin:10px 0;">¡Listo!</h2>
+            <p id="resultado-msg" style="font-size:0.85rem;color:var(--text-light);margin-bottom:20px;"></p>
+            <button id="resultado-btn-wa" class="btn btn-primary" style="width:100%;margin-bottom:10px;" onclick="enviarWAResultado()">
+                📲 Enviar WhatsApp a clienta
+            </button>
+            <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('modal-resultado')">
+                Cerrar sin enviar
+            </button>
+        </div>
+    </div>
+
     <div id="modal-alerta-regalo" class="modal-overlay" style="z-index: 110;">
         <div class="modal-content" style="text-align: center; padding: 30px 20px;">
             <span style="font-size: 4rem;">🎁</span>
@@ -504,7 +592,6 @@
         </div>
     </div>
 
-    <!-- ===== MODAL PREMIO RETO ===== -->
     <div id="modal-alerta-reto-completado" class="modal-overlay" style="z-index: 111;">
         <div class="modal-content" style="text-align: center; padding: 30px 20px;">
             <span style="font-size: 4rem;">🏆</span>
@@ -520,7 +607,6 @@
         <button class="nav-item" onclick="switchView('reportes', this)"><span class="icon">📊</span><span>Reportes</span></button>
         <button class="nav-item" onclick="switchView('ajustes', this)"><span class="icon">⚙️</span><span>Ajustes</span></button>
     </nav>
-
 
     <script>
     // =====================================================================
@@ -540,7 +626,11 @@
             msgInvitacionReto: "¡Hola [CLIENTA]! 🎯 Te invito a participar en nuestro reto *[RETO]*. Objetivo: [OBJETIVO]. Premio: [PREMIO]. ¡Fecha límite: [FECHA]! 💋 Avísame si te animas.",
             msgAvanceReto: "¡Hola [CLIENTA]! 📈 Vas increíble en el reto *[RETO]*. Tu avance actual es [PROGRESO] y te falta [FALTANTE] para ganar [PREMIO]. ¡Tú puedes! 💪💋",
             msgRetoCompletado: "🏆 ¡Felicidades [CLIENTA]! Completaste el reto *[RETO]* y ganaste: [PREMIO]. ¡Lo lograste! 🎉💋",
-            msgEntregaPremio: "✅ ¡Hola [CLIENTA]! Paso a confirmarte que ya te entregué tu premio: *[PREMIO]*. ¡Muchas gracias por participar! Espero que lo disfrutes mucho. 💖💋"
+            msgEntregaPremio: "✅ ¡Hola [CLIENTA]! Paso a confirmarte que ya te entregué tu premio: *[PREMIO]*. ¡Muchas gracias por participar! Espero que lo disfrutes mucho. 💖💋",
+            msgVentaRegistrada: "¡Hola {cliente}! 🛍️💋 Quería confirmarte que registré tu compra de *{producto}* por ${monto}. ¡Muchas gracias por tu preferencia! Cualquier duda aquí estoy. ✨",
+            msgPagoRecibido: "¡Hola {cliente}! 💵 Recibí tu abono de ${monto}. Tu saldo pendiente ahora es ${saldo}. ¡Gracias por tu pago! 💖",
+            msgPagoLiquidado: "¡Hola {cliente}! 🎉 ¡Tu cuenta quedó completamente liquidada! No tienes saldo pendiente. ¡Gracias por tu pago puntual! 💋✨",
+            msgFidelidad: "¡Hola {cliente}! 🌸 Actualmente llevas {compras} compras acumuladas. Te faltan {compras_faltantes} para recibir tu regalo especial. 🎁 ¡Gracias por tu preferencia! 💋"
         }
     };
 
@@ -556,13 +646,12 @@
             try {
                 const saved = JSON.parse(localStorage.getItem('NANYKISS_DATA'));
                 DATA = saved;
-                // Migración: agregar campos nuevos si no existen
                 if (!DATA.retos) DATA.retos = [];
-                if (!DATA.ajustes.msgInvitacionReto) DATA.ajustes.msgInvitacionReto = "¡Hola [CLIENTA]! 🎯 Te invito a participar en nuestro reto *[RETO]*. Objetivo: [OBJETIVO]. Premio: [PREMIO]. ¡Fecha límite: [FECHA]! 💋";
-                if (!DATA.ajustes.msgAvanceReto) DATA.ajustes.msgAvanceReto = "¡Hola [CLIENTA]! 📈 Vas en el reto *[RETO]*. Tu avance: [PROGRESO], te falta [FALTANTE] para ganar [PREMIO]. ¡Ánimo! 💪💋";
-                if (!DATA.ajustes.msgRetoCompletado) DATA.ajustes.msgRetoCompletado = "🏆 ¡Felicidades [CLIENTA]! Completaste el reto *[RETO]* y ganaste: [PREMIO]. ¡Lo lograste! 🎉💋";
-                if (!DATA.ajustes.msgEntregaPremio) DATA.ajustes.msgEntregaPremio = "✅ ¡Hola [CLIENTA]! Ya te entregué tu premio: *[PREMIO]*. ¡Muchas gracias! 💖💋";
-                // Migrar retos viejos que no tengan todos los campos
+                DATA.clientas = DATA.clientas.map(c => {
+                    if (c.contadorFidelidad === undefined) c.contadorFidelidad = c.estrellas || 0;
+                    if (!c.retosParticipacion) c.retosParticipacion = {};
+                    return c;
+                });
                 DATA.retos = DATA.retos.map(r => {
                     if (!r.tipo) r.tipo = 'cantidad';
                     if (!r.estado) r.estado = 'activo';
@@ -572,14 +661,8 @@
                     if (!r.participaciones) r.participaciones = {};
                     return r;
                 });
-                // Migrar clientas: agregar campo retosParticipacion si no existe
-                DATA.clientas = DATA.clientas.map(c => {
-                    if (!c.retosParticipacion) c.retosParticipacion = {};
-                    return c;
-                });
             } catch(e) { console.error("Error cargando datos", e); }
         } else {
-            // Datos demo
             DATA.clientas = [
                 { id: "demo-1", nombre: "Aurora López", telefono: "5512345678", cumpleanos: "1995-07-15", observaciones: "Compra Jafra y Skincare. Prefiere fragancias dulces.", estrellas: 4, regaloPendiente: false, comprasAcumuladas: 1250, nivel: "PLATA", adeudos: [{ marca: "Jafra", producto: "Perfume Coreta", total: 500, saldo: 500, fechaVenta: "2026-06-01", limiteDias: 15 }], historial: [{ fecha: "2026-06-01", tipo: "adeudo", marca: "Jafra", detalle: "Perfume Coreta - Adeudo Abierto", monto: 500 }], recompras: [], retosParticipacion: {} },
                 { id: "demo-2", nombre: "Petra Martínez", telefono: "5587654321", cumpleanos: "1988-02-20", observaciones: "Vecina. Compra Betterware.", estrellas: 5, regaloPendiente: true, comprasAcumuladas: 3400, nivel: "ORO", adeudos: [], historial: [{ fecha: "2026-04-10", tipo: "compra", marca: "Betterware", detalle: "Filtro de agua", monto: 450 }], recompras: [], retosParticipacion: {} }
@@ -680,7 +763,7 @@
     }
 
     // =====================================================================
-    // SISTEMA DE RETOS: CÁLCULO DE PROGRESO
+    // RETOS: PROGRESO
     // =====================================================================
     function calcularProgresoReto(clienta, reto) {
         if (!reto || reto.estado === 'cancelado') return { progreso: 0, meta: reto ? reto.meta : 1, porcentaje: 0, completado: false };
@@ -705,11 +788,9 @@
         } else if (reto.tipo === 'producto') {
             const target = (reto.meta + '').toLowerCase();
             progreso = comprasEnReto.filter(h => h.detalle.toLowerCase().includes(target) || (h.marca && h.marca.toLowerCase().includes(target))).length;
-            meta = parseFloat(reto.puntos) || 2;
         } else if (reto.tipo === 'categoria') {
             const cat = (reto.meta + '').toLowerCase();
             progreso = comprasEnReto.filter(h => h.categoria && h.categoria.toLowerCase().includes(cat)).length;
-            meta = parseFloat(reto.puntos) || 3;
         } else if (reto.tipo === 'participacion') {
             progreso = comprasEnReto.length > 0 ? 1 : 0;
             meta = 1;
@@ -720,9 +801,6 @@
         return { progreso, meta, porcentaje, completado };
     }
 
-    // =====================================================================
-    // ACTUALIZAR TODO
-    // =====================================================================
     function actualizarTodo() {
         recalcularNiveles();
         renderDashboard();
@@ -748,9 +826,6 @@
         saveToLocalStorage();
     }
 
-    // =====================================================================
-    // DASHBOARD
-    // =====================================================================
     function renderDashboard() {
         let vencidas=0, deuda=0, inactivas=0, regalos=0, vip=0, cumple=0;
         DATA.clientas.forEach(c => {
@@ -770,12 +845,10 @@
         document.getElementById('count-cumple').innerText = cumple;
     }
 
-    // =====================================================================
-    // LISTA DE CLIENTAS
-    // =====================================================================
     function renderClientas() {
         const query = document.getElementById('search-input').value.toLowerCase();
         const container = document.getElementById('main-client-list');
+        if (!container) return;
         container.innerHTML = "";
         const pesoStatus = { vencida:1, deuda:2, inactiva:3, recompra:4, cumple:5, sano:6 };
 
@@ -814,9 +887,6 @@
         });
     }
 
-    // =====================================================================
-    // CRUD CLIENTAS
-    // =====================================================================
     function saveCliente(e) {
         e.preventDefault();
         DATA.clientas.push({
@@ -835,9 +905,6 @@
         actualizarTodo();
     }
 
-    // =====================================================================
-    // EXPEDIENTE
-    // =====================================================================
     function openExpediente(id) {
         currentClientaId = id;
         const c = DATA.clientas.find(x => x.id === id);
@@ -856,31 +923,44 @@
         b.className = `client-badge badge-${c.nivel.toLowerCase()}`;
         b.innerText = c.nivel;
 
-        let estrellasStr = "⭐".repeat(c.estrellas||0) + "☆".repeat(5-(c.estrellas||0));
-        if (c.regaloPendiente) estrellasStr += " 🎁 ¡REGALO PENDIENTE!";
+        const contador = c.contadorFidelidad !== undefined ? c.contadorFidelidad : (c.estrellas || 0);
+        const META_FIDELIDAD = 6;
+        let estrellasStr = c.regaloPendiente ? "🎁 ¡Regalo disponible!" : `💋 ${contador}/${META_FIDELIDAD} compras`;
         document.getElementById('exp-fidelidad-estrellas').innerText = estrellasStr;
+
+        const puntosContainer = document.getElementById('exp-fidelidad-puntos');
+        puntosContainer.innerHTML = '';
+        for (let i = 0; i < META_FIDELIDAD; i++) {
+            const dot = document.createElement('div');
+            dot.style.cssText = `flex:1;height:14px;border-radius:7px;background:${i < contador ? 'linear-gradient(90deg,var(--rosa-maquillaje),#9C27B0)' : '#E0E0E0'};transition:all 0.3s;`;
+            puntosContainer.appendChild(dot);
+        }
+        document.getElementById('exp-fidelidad-texto').innerText = c.regaloPendiente ? '🎉 ¡Meta alcanzada!' : `Faltan ${META_FIDELIDAD - contador} compras`;
+        document.getElementById('exp-regalo-btn-container').style.display = c.regaloPendiente ? 'block' : 'none';
         document.getElementById('btn-abonar-exp').style.display = saldo > 0 ? "flex" : "none";
 
-        // Historial
         const histContainer = document.getElementById('exp-historial-list');
         histContainer.innerHTML = "";
         if (!c.historial || c.historial.length === 0) {
             histContainer.innerHTML = `<p style="font-size:0.75rem;color:var(--text-light)">Sin movimientos.</p>`;
         } else {
-            [...c.historial].reverse().forEach(h => {
+            const historialReversed = [...c.historial].map((h, i) => ({...h, originalIndex: i})).reverse();
+            historialReversed.forEach(h => {
                 const item = document.createElement('div');
                 item.className = `historial-item type-${h.tipo}`;
                 item.innerHTML = `
-                    <div>
+                    <div style="flex:1">
                         <p><strong>[${h.marca||'NanyKiss'}]</strong> ${h.detalle}</p>
                         <span style="font-size:0.65rem;color:var(--text-light)">📅 ${h.fecha}</span>
                     </div>
-                    <div style="font-weight:700">${h.monto > 0 ? '$'+h.monto : ''}</div>`;
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span style="font-weight:700">${h.monto > 0 ? '$'+h.monto : ''}</span>
+                        <button class="btn btn-secondary btn-icon" style="font-size:0.65rem;padding:3px 6px;" onclick="abrirEditarHistorial(${h.originalIndex})">✏️</button>
+                    </div>`;
                 histContainer.appendChild(item);
             });
         }
 
-        // Retos activos en expediente
         const retosContainer = document.getElementById('exp-retos-puntos');
         retosContainer.innerHTML = "";
         const retosActivos = DATA.retos.filter(r => r.estado === 'activo');
@@ -907,15 +987,34 @@
             });
         }
 
+        renderAdeudosExpediente(c);
         renderWhatsAppActions(c, saldo);
         openModal('modal-expediente');
     }
 
-    // =====================================================================
-    // WHATSAPP
-    // =====================================================================
+    function renderAdeudosExpediente(c) {
+        const container = document.getElementById('exp-adeudos-list');
+        const section = document.getElementById('exp-adeudos-section');
+        if(!container) return;
+        container.innerHTML = "";
+        if (c.adeudos && c.adeudos.length > 0) {
+            section.style.display = "block";
+            c.adeudos.forEach((a, i) => {
+                container.innerHTML += `
+                    <div style="background:var(--blanco-calido); padding:8px; border-radius:10px; margin-bottom:5px; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong>${a.producto}</strong> (${a.marca})<br>
+                            <span style="font-size:0.7rem;color:var(--text-light)">Resta: <strong>$${a.saldo}</strong> / Total: $${a.total}</span>
+                        </div>
+                        <button class="btn btn-secondary btn-icon" onclick="abrirEditarAdeudo(${i})">✏️</button>
+                    </div>`;
+            });
+        } else { section.style.display = "none"; }
+    }
+
     function renderWhatsAppActions(clienta, saldo) {
         const container = document.getElementById('wa-actions-container');
+        if (!container) return;
         container.innerHTML = "";
         const recompraActiva = clienta.recompras ? clienta.recompras.find(r => !r.atendida) : null;
         const retosActivos = DATA.retos.filter(r => r.estado === 'activo');
@@ -955,9 +1054,9 @@
             texto = aj.msgRecompra.replace('[CLIENTA]', clienta.nombre).replace('[PRODUCTO]', recompraObj.producto).replace('[MARCA]', recompraObj.marca);
             recompraObj.atendida = true; saveToLocalStorage();
         } else if (tipo === 'regalo') {
-            texto = `¡Hola ${clienta.nombre}! 🎁💋 Tienes un regalo pendiente por haber llenado tus 5 estrellas de fidelidad. ¡Avísame cuándo nos vemos! ✨`;
+            texto = `¡Hola ${clienta.nombre}! 🎁 Tienes un regalo pendiente por fidelidad. ¡Avísame cuándo nos vemos! ✨`;
         } else if (tipo === 'cumple') {
-            texto = `¡Feliz Cumpleaños ${clienta.nombre}! 🎂🥳 Como clienta especial, en tu próxima compra tienes un regalo sorpresa. ¡Un abrazo! 💋💖`;
+            texto = `¡Feliz Cumpleaños ${clienta.nombre}! 🎂 Tienes un regalo sorpresa en tu próxima compra. 💋💖`;
         } else if (tipo === 'invitar-reto' && primerReto) {
             texto = aj.msgInvitacionReto.replace('[CLIENTA]', clienta.nombre).replace('[RETO]', primerReto.nombre).replace('[OBJETIVO]', primerReto.descripcion||primerReto.meta).replace('[PREMIO]', primerReto.premio).replace('[FECHA]', primerReto.fechaFin||'pronto');
         } else if (tipo === 'avance-reto' && primerReto) {
@@ -969,17 +1068,13 @@
         } else if (tipo === 'reto-completado' && primerReto) {
             texto = aj.msgRetoCompletado.replace('[CLIENTA]', clienta.nombre).replace('[RETO]', primerReto.nombre).replace('[PREMIO]', primerReto.premio);
         } else if (tipo === 'promo') {
-            texto = `¡Hola ${clienta.nombre}! 💄 Esta semana tengo lanzamientos y ofertas increíbles. ¿Te mando los catálogos? 🛍️✨`;
+            texto = `¡Hola ${clienta.nombre}! 💄 Esta semana tengo ofertas increíbles. ¿Te mando los catálogos? ✨`;
         } else {
-            texto = `¡Hola ${clienta.nombre}! ✨ Espero que estés muy bien. Escribía para saber si todo marchó excelente con tus productos. ¡Quedo a tus órdenes! 💋`;
+            texto = `¡Hola ${clienta.nombre}! ✨ Escribía para saber si todo marchó excelente con tus productos. 💋`;
         }
-
         window.open(`https://wa.me/${clienta.telefono}?text=${encodeURIComponent(texto)}`, '_blank');
     }
 
-    // =====================================================================
-    // VENTAS
-    // =====================================================================
     function openVentaModal() {
         document.getElementById('vta-fecha').value = new Date().toISOString().split('T')[0];
         openModal('modal-venta');
@@ -990,19 +1085,20 @@
         document.getElementById('group-enganche').style.display = cond === 'parcial' ? 'block' : 'none';
     }
 
-    function saveVenta(e) {
-        e.preventDefault();
+    function saveVenta() {
         const c = DATA.clientas.find(x => x.id === currentClientaId);
         if (!c) return;
 
-        const marca = document.getElementById('vta-marca').value;
-        const producto = document.getElementById('vta-producto').value;
+        const marca = document.getElementById('vta-marca').value.trim();
+        const producto = document.getElementById('vta-producto').value.trim();
+        if (!marca || !producto || !document.getElementById('vta-monto').value) { showToast('⚠️ Completa los campos requeridos'); return; }
+
         const categoria = document.getElementById('vta-categoria').value;
         const monto = parseFloat(document.getElementById('vta-monto').value);
         const fecha = document.getElementById('vta-fecha').value;
         const condicion = document.getElementById('vta-condicion').value;
-        const recompraDias = parseInt(document.getElementById('vta-recompra-dias').value);
-        const limiteDias = parseInt(document.getElementById('vta-limite-dias').value);
+        const recompraDias = parseInt(document.getElementById('vta-recompra-dias').value) || 0;
+        const limiteDias = parseInt(document.getElementById('vta-limite-dias').value) || 15;
 
         let enganche = condicion === 'contado' ? monto : condicion === 'parcial' ? parseFloat(document.getElementById('vta-enganche').value)||0 : 0;
         let saldo = monto - enganche;
@@ -1011,160 +1107,113 @@
         if (saldo > 0) c.adeudos.push({ marca, producto, total: monto, saldo, fechaVenta: fecha, limiteDias });
         c.comprasAcumuladas = (c.comprasAcumuladas||0) + monto;
 
-        // Fidelidad estrellas
+        if (c.contadorFidelidad === undefined) c.contadorFidelidad = 0;
         if (!c.regaloPendiente) {
-            c.estrellas = (c.estrellas||0) + 1;
-            if (c.estrellas >= 5) {
+            c.contadorFidelidad = (c.contadorFidelidad || 0) + 1;
+            c.estrellas = c.contadorFidelidad;
+            if (c.contadorFidelidad >= 6) {
                 c.regaloPendiente = true;
                 regaloTriggerId = c.id;
-                setTimeout(() => {
-                    document.getElementById('txt-alerta-regalo-msg').innerText = `${c.nombre} completó sus 5 compras. ¿Entregas el premio ahora?`;
-                    openModal('modal-alerta-regalo');
-                }, 400);
             }
-        } else {
-            regaloTriggerId = c.id;
-            setTimeout(() => {
-                document.getElementById('txt-alerta-regalo-msg').innerText = `${c.nombre} sigue con un regalo pendiente.`;
-                openModal('modal-alerta-regalo');
-            }, 400);
         }
 
-        // Recompra
         if (recompraDias > 0) {
             const fSeg = new Date(new Date(fecha).getTime() + recompraDias*86400000);
             if (!c.recompras) c.recompras = [];
             c.recompras.push({ marca, producto, fechaSeguimiento: fSeg.toISOString().split('T')[0], atendida: false });
         }
 
-        // *** VERIFICAR RETOS AUTOMÁTICAMENTE ***
         verificarRetosParaClienta(c, { fecha, monto, marca, producto, categoria });
-
         saveToLocalStorage();
         closeModal('modal-venta');
-        document.getElementById('form-venta').reset();
-        document.getElementById('group-enganche').style.display = 'none';
+
+        if (c.regaloPendiente && regaloTriggerId === c.id) {
+            setTimeout(() => {
+                document.getElementById('txt-alerta-regalo-msg').innerText = `🎉 ¡${c.nombre} completó 6 compras!`;
+                openModal('modal-alerta-regalo');
+            }, 300);
+        }
+
         showToast("🛍️ ¡Venta procesada!");
         openExpediente(c.id);
         actualizarTodo();
     }
 
-    // =====================================================================
-    // RETOS: VERIFICACIÓN AUTOMÁTICA AL REGISTRAR VENTA
-    // =====================================================================
     function verificarRetosParaClienta(clienta, ventaActual) {
         const retosActivos = DATA.retos.filter(r => r.estado === 'activo');
         retosActivos.forEach(reto => {
             const yaCompleto = clienta.retosParticipacion && clienta.retosParticipacion[reto.id] && clienta.retosParticipacion[reto.id].completado;
-            if (yaCompleto) return; // ya lo había completado antes
+            if (yaCompleto) return;
 
-            const { completado, progreso, meta } = calcularProgresoReto(clienta, reto);
-            
+            const { completado } = calcularProgresoReto(clienta, reto);
             if (!clienta.retosParticipacion) clienta.retosParticipacion = {};
             
-            // Registrar participación si es la primera compra
             if (!clienta.retosParticipacion[reto.id]) {
                 clienta.retosParticipacion[reto.id] = { completado: false, premioEntregado: false };
-                clienta.historial.push({ fecha: ventaActual.fecha, tipo: 'reto', marca: 'NanyKiss', detalle: `🎯 Participó en reto: ${reto.nombre}`, monto: 0 });
             }
 
             if (completado) {
                 clienta.retosParticipacion[reto.id].completado = true;
                 clienta.retosParticipacion[reto.id].fechaCumplimiento = ventaActual.fecha;
-                clienta.historial.push({ fecha: ventaActual.fecha, tipo: 'reto', marca: 'NanyKiss', detalle: `🏆 Completó el reto: ${reto.nombre}. Premio: ${reto.premio}`, monto: 0 });
-                
+                clienta.historial.push({ fecha: ventaActual.fecha, tipo: 'reto', marca: 'NanyKiss', detalle: `🏆 Completó reto: ${reto.nombre}`, monto: 0 });
                 setTimeout(() => {
-                    document.getElementById('txt-alerta-reto-msg').innerText = `¡${clienta.nombre} completó el reto "${reto.nombre}"! Premio: ${reto.premio}. Recuerda marcar la entrega cuando se lo des.`;
+                    document.getElementById('txt-alerta-reto-msg').innerText = `¡${clienta.nombre} completó "${reto.nombre}"! Premio: ${reto.premio}`;
                     openModal('modal-alerta-reto-completado');
                 }, 800);
             }
         });
     }
 
-    // =====================================================================
-    // PREMIOS POR FIDELIDAD (ESTRELLAS)
-    // =====================================================================
     function procesarEntregaRegalo(seEntrego) {
         const c = DATA.clientas.find(x => x.id === regaloTriggerId);
         if (c && seEntrego) {
-            c.estrellas = 0;
-            c.regaloPendiente = false;
-            c.historial.push({ fecha: new Date().toISOString().split('T')[0], tipo: "regalo", marca: "NanyKiss", detalle: "🎁 Regalo de Fidelidad Entregado ✅", monto: 0 });
-            showToast("🎁 ¡Premio entregado, tarjeta reiniciada!");
-        } else { showToast("⏳ Regalo guardado como pendiente"); }
+            c.contadorFidelidad = 0; c.estrellas = 0; c.regaloPendiente = false;
+            c.historial.push({ fecha: new Date().toISOString().split('T')[0], tipo: "regalo", marca: "NanyKiss", detalle: "🎁 Regalo Entregado ✅", monto: 0 });
+            showToast("🎁 ¡Regalo entregado!");
+        }
         saveToLocalStorage();
         closeModal('modal-alerta-regalo');
         if (currentClientaId) openExpediente(currentClientaId);
         actualizarTodo();
     }
 
-    function checkManualRegalo() {
-        regaloTriggerId = currentClientaId;
-        document.getElementById('txt-alerta-regalo-msg').innerText = "Gestión manual de fidelidad.";
-        openModal('modal-alerta-regalo');
-    }
+    function entregarRegaloFidelidad() { regaloTriggerId = currentClientaId; procesarEntregaRegalo(true); }
+    function checkManualRegalo() { regaloTriggerId = currentClientaId; openModal('modal-alerta-regalo'); }
 
-    // =====================================================================
-    // ABONOS
-    // =====================================================================
     function openAbonoModal() {
         const c = DATA.clientas.find(x => x.id === currentClientaId);
         const select = document.getElementById('abo-cuenta-index');
+        if(!select) return;
         select.innerHTML = "";
         if (!c || c.adeudos.length === 0) return;
-        c.adeudos.forEach((a, i) => { select.innerHTML += `<option value="${i}">${a.producto} (${a.marca}) - Resta: $${a.saldo}</option>`; });
+        c.adeudos.forEach((a, i) => { select.innerHTML += `<option value="${i}">${a.producto} - Resta: $${a.saldo}</option>`; });
         openModal('modal-abono');
     }
 
-    function saveAbono(e) {
-        e.preventDefault();
+    function saveAbono() {
         const c = DATA.clientas.find(x => x.id === currentClientaId);
-        if (!c) return;
         const index = document.getElementById('abo-cuenta-index').value;
         const monto = parseFloat(document.getElementById('abo-monto').value);
+        if (!c || !monto || monto <= 0) return;
         const cuenta = c.adeudos[index];
-        if (!cuenta || monto <= 0) return;
+        if (!cuenta) return;
+
         cuenta.saldo = Math.max(0, cuenta.saldo - monto);
         c.historial.push({ fecha: new Date().toISOString().split('T')[0], tipo: "pago", marca: cuenta.marca, detalle: `Abono a: ${cuenta.producto}`, monto });
-        if (cuenta.saldo === 0) { c.adeudos.splice(index, 1); showToast("🎉 ¡Cuenta liquidada!"); }
-        else showToast("💵 Abono registrado");
+        if (cuenta.saldo === 0) { c.adeudos.splice(index, 1); }
+        
         saveToLocalStorage();
         closeModal('modal-abono');
-        document.getElementById('form-abono').reset();
+        document.getElementById('abo-monto').value = '';
         openExpediente(c.id);
         actualizarTodo();
+        showToast("💵 ¡Abono aplicado!");
     }
 
-    // =====================================================================
-    // MÓDULO RETOS - CRUD COMPLETO
-    // =====================================================================
     function abrirModalCrearReto() {
         document.getElementById('modal-reto-titulo').innerText = "🎯 Nueva Campaña";
-        ['ret-id','ret-nombre','ret-emoji','ret-descripcion','ret-meta','ret-premio','ret-fecha-fin'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = '';
-        });
-        document.getElementById('ret-tipo').value = 'cantidad';
-        document.getElementById('ret-estado').value = 'activo';
-        document.getElementById('ret-fecha-inicio').value = new Date().toISOString().split('T')[0];
-        actualizarUITipoReto();
-        openModal('modal-reto');
-    }
-
-    function abrirModalEditarReto(id) {
-        const r = DATA.retos.find(x => x.id === id);
-        if (!r) return;
-        document.getElementById('modal-reto-titulo').innerText = "✏️ Editar Reto";
-        document.getElementById('ret-id').value = r.id;
-        document.getElementById('ret-nombre').value = r.nombre;
-        document.getElementById('ret-emoji').value = r.emoji;
-        document.getElementById('ret-descripcion').value = r.descripcion||'';
-        document.getElementById('ret-tipo').value = r.tipo||'cantidad';
-        document.getElementById('ret-meta').value = r.meta;
-        document.getElementById('ret-premio').value = r.premio;
-        document.getElementById('ret-fecha-inicio').value = r.fechaInicio||'';
-        document.getElementById('ret-fecha-fin').value = r.fechaFin||'';
-        document.getElementById('ret-estado').value = r.estado||'activo';
+        document.getElementById('ret-id').value = '';
+        document.getElementById('form-reto').reset();
         actualizarUITipoReto();
         openModal('modal-reto');
     }
@@ -1178,7 +1227,7 @@
         if (tipo === 'cantidad') lbl.innerText = 'Meta (número de compras)';
         else if (tipo === 'monto') lbl.innerText = 'Meta (monto en $)';
         else if (tipo === 'producto') lbl.innerText = 'Producto o palabra clave';
-        else if (tipo === 'categoria') lbl.innerText = 'Categoría (Ej: skincare, labial)';
+        else if (tipo === 'categoria') lbl.innerText = 'Categoría';
     }
 
     function saveReto() {
@@ -1186,73 +1235,52 @@
         const nombre = document.getElementById('ret-nombre').value.trim();
         const premio = document.getElementById('ret-premio').value.trim();
         const tipo = document.getElementById('ret-tipo').value;
-
-        if (!nombre) { showToast("⚠️ Escribe el nombre del reto"); return; }
-        if (!premio) { showToast("⚠️ Escribe el premio"); return; }
-        if (tipo !== 'participacion' && !document.getElementById('ret-meta').value.trim()) {
-            showToast("⚠️ Escribe la meta del reto"); return;
-        }
+        if (!nombre || !premio) { showToast("⚠️ Escribe nombre y premio"); return; }
 
         const retoData = {
-            nombre,
-            emoji: document.getElementById('ret-emoji').value.trim() || '🎯',
-            descripcion: document.getElementById('ret-descripcion').value,
-            tipo,
-            meta: document.getElementById('ret-meta').value.trim() || '1',
-            premio,
+            nombre, emoji: document.getElementById('ret-emoji').value.trim() || '🎯',
+            descripcion: document.getElementById('ret-descripcion').value, tipo,
+            meta: document.getElementById('ret-meta').value.trim() || '1', premio,
             fechaInicio: document.getElementById('ret-fecha-inicio').value,
             fechaFin: document.getElementById('ret-fecha-fin').value,
             estado: document.getElementById('ret-estado').value,
         };
 
         if (id) {
-            // Editar existente
             const idx = DATA.retos.findIndex(r => r.id === id);
-            if (idx !== -1) { DATA.retos[idx] = { ...DATA.retos[idx], ...retoData }; showToast("✏️ Reto actualizado"); }
+            if (idx !== -1) DATA.retos[idx] = { ...DATA.retos[idx], ...retoData };
         } else {
-            // Crear nuevo
             DATA.retos.push({ id: "ret-" + Date.now(), participaciones: {}, ...retoData });
-            showToast("🚀 ¡Reto lanzado!");
         }
-
         saveToLocalStorage();
         closeModal('modal-reto');
-        // Limpiar campos manualmente
-        ['ret-id','ret-nombre','ret-emoji','ret-descripcion','ret-meta','ret-premio','ret-fecha-inicio','ret-fecha-fin'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = '';
+        showToast("🚀 Reto guardado");
+        renderRetos();
+    }
+
+    function renderRetos() {
+        const container = document.getElementById('challenges-list');
+        if (!container) return;
+        container.innerHTML = "";
+        if (DATA.retos.length === 0) {
+            container.innerHTML = `<p style="text-align:center;font-size:0.85rem;color:var(--text-light);padding:20px;">No hay retos creados 🎯</p>`;
+            return;
+        }
+        DATA.retos.forEach(r => {
+            container.innerHTML += `
+                <div class="challenge-card estado-${r.estado}">
+                    <div class="challenge-header">
+                        <span class="challenge-title">${r.emoji} ${r.nombre}</span>
+                        <span class="challenge-estado-badge badge-${r.estado}">${r.estado}</span>
+                    </div>
+                    <p class="challenge-meta">${r.descripcion || 'Sin descripción'}</p>
+                    <p class="challenge-prize">🎁 Premio: ${r.premio}</p>
+                    <div class="challenge-actions">
+                        <button class="btn btn-secondary btn-sm" onclick="verDetalleReto('${r.id}')">👥 Ver Progreso</button>
+                        <button class="btn btn-secondary btn-icon" onclick="eliminarReto('${r.id}')">🗑️</button>
+                    </div>
+                </div>`;
         });
-        document.getElementById('ret-tipo').value = 'cantidad';
-        document.getElementById('ret-estado').value = 'activo';
-        actualizarUITipoReto();
-        renderRetos();
-    }
-
-    function duplicarReto(id) {
-        const r = DATA.retos.find(x => x.id === id);
-        if (!r) return;
-        DATA.retos.push({ ...r, id: "ret-" + Date.now(), nombre: r.nombre + " (Copia)", estado: "activo", participaciones: {} });
-        saveToLocalStorage();
-        showToast("📋 Reto duplicado");
-        renderRetos();
-    }
-
-    function cambiarEstadoReto(id, nuevoEstado) {
-        const r = DATA.retos.find(x => x.id === id);
-        if (!r) return;
-        r.estado = nuevoEstado;
-        saveToLocalStorage();
-        const labels = { activo:'▶️ Reactivado', pausado:'⏸️ Pausado', finalizado:'🏁 Finalizado', cancelado:'🗑️ Cancelado' };
-        showToast(labels[nuevoEstado]||'Actualizado');
-        renderRetos();
-    }
-
-    function eliminarReto(id) {
-        if (!confirm("¿Eliminar este reto definitivamente?")) return;
-        DATA.retos = DATA.retos.filter(r => r.id !== id);
-        saveToLocalStorage();
-        showToast("🗑️ Reto eliminado");
-        renderRetos();
     }
 
     function verDetalleReto(id) {
@@ -1260,9 +1288,6 @@
         const r = DATA.retos.find(x => x.id === id);
         if (!r) return;
         document.getElementById('reto-detalle-titulo').innerText = `${r.emoji} ${r.nombre}`;
-        // Reset tabs
-        document.querySelectorAll('#modal-reto-detalle .tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
-        document.querySelectorAll('#modal-reto-detalle .tab-panel').forEach((p,i) => p.classList.toggle('active', i===0));
         renderParticipantesReto(id);
         openModal('modal-reto-detalle');
     }
@@ -1272,255 +1297,47 @@
         const container = document.getElementById('reto-participantes-list');
         if (!container || !reto) return;
         container.innerHTML = "";
-
-        const participantes = DATA.clientas.filter(c => {
-            const { progreso } = calcularProgresoReto(c, reto);
-            return progreso > 0;
-        });
-
-        if (participantes.length === 0) {
-            container.innerHTML = `<p style="font-size:0.8rem;color:var(--text-light);text-align:center;padding:20px;">Aún no hay participantes 🎯</p>`;
-            return;
-        }
-
-        // Ordenar: completadas primero
-        participantes.sort((a, b) => {
-            const pa = calcularProgresoReto(a, reto);
-            const pb = calcularProgresoReto(b, reto);
-            return pb.porcentaje - pa.porcentaje;
-        });
-
-        participantes.forEach(c => {
-            const { progreso, meta, porcentaje, completado } = calcularProgresoReto(c, reto);
-            const metaStr = reto.tipo === 'monto' ? `$${meta}` : meta;
-            const progStr = reto.tipo === 'monto' ? `$${progreso.toFixed(0)}` : progreso;
-            const row = document.createElement('div');
-            row.className = "participante-row";
-            row.innerHTML = `
-                <span style="min-width:120px;font-weight:600;font-size:0.8rem">${c.nombre}</span>
-                <div class="participante-progress"><div class="participante-progress-fill" style="width:${porcentaje}%"></div></div>
-                <span class="participante-check" style="color:${completado?'var(--success)':'var(--text-light)'}">
-                    ${completado ? '✅' : `${progStr}/${metaStr}`}
-                </span>`;
-            container.appendChild(row);
-        });
-
-        // Clientas sin participar
-        const sinParticip = DATA.clientas.filter(c => {
-            const { progreso } = calcularProgresoReto(c, reto);
-            return progreso === 0;
-        });
-        if (sinParticip.length > 0) {
-            container.innerHTML += `<p style="font-size:0.72rem;color:var(--text-light);margin-top:10px;padding-left:5px;">Sin participar: ${sinParticip.map(c=>c.nombre).join(', ')}</p>`;
-        }
-    }
-
-    function renderPremiosReto(id) {
-        const reto = DATA.retos.find(x => x.id === id);
-        const container = document.getElementById('reto-premios-list');
-        if (!container || !reto) return;
-        container.innerHTML = "";
-
-        const ganadoras = DATA.clientas.filter(c => c.retosParticipacion && c.retosParticipacion[id] && c.retosParticipacion[id].completado);
-
-        if (ganadoras.length === 0) {
-            container.innerHTML = `<p style="font-size:0.8rem;color:var(--text-light);text-align:center;padding:20px;">Nadie ha completado este reto todavía 🏆</p>`;
-            return;
-        }
-
-        container.innerHTML += `<p style="font-size:0.8rem;font-weight:600;margin-bottom:10px;">Premio: <strong>${reto.premio}</strong></p>`;
-
-        ganadoras.forEach(c => {
-            const participacion = c.retosParticipacion[id];
-            const entregado = participacion.premioEntregado;
-            const div = document.createElement('div');
-            div.className = `premio-item ${entregado ? 'entregado' : ''}`;
-            div.innerHTML = `
-                <div>
-                    <strong style="font-size:0.85rem">${c.nombre}</strong>
-                    <p style="font-size:0.7rem;color:var(--text-light)">Completado: ${participacion.fechaCumplimiento||'--'}</p>
-                    ${entregado ? `<p style="font-size:0.7rem;color:var(--success)">✅ Entregado: ${participacion.fechaEntrega||''}</p>` : ''}
-                </div>
-                <button class="btn btn-sm ${entregado?'btn-secondary':'btn-success'}" onclick="togglePremioReto('${c.id}','${id}',${!entregado})">
-                    ${entregado ? '↩️ Revertir' : '🎁 Marcar Entregado'}
-                </button>`;
-            container.appendChild(div);
-        });
-    }
-
-    function togglePremioReto(clientaId, retoId, entregar) {
-        const c = DATA.clientas.find(x => x.id === clientaId);
-        if (!c || !c.retosParticipacion || !c.retosParticipacion[retoId]) return;
-        c.retosParticipacion[retoId].premioEntregado = entregar;
-        if (entregar) {
-            c.retosParticipacion[retoId].fechaEntrega = new Date().toISOString().split('T')[0];
-            c.historial.push({ fecha: new Date().toISOString().split('T')[0], tipo: 'reto', marca: 'NanyKiss', detalle: `🎁 Premio entregado del reto: ${DATA.retos.find(r=>r.id===retoId)?.nombre||retoId}`, monto: 0 });
-            // Enviar mensaje WhatsApp de entrega
-            const r = DATA.retos.find(x => x.id === retoId);
-            if (r) {
-                const texto = DATA.ajustes.msgEntregaPremio.replace('[CLIENTA]', c.nombre).replace('[PREMIO]', r.premio);
-                window.open(`https://wa.me/${c.telefono}?text=${encodeURIComponent(texto)}`, '_blank');
-            }
-            showToast("🎁 Premio marcado como entregado");
-        } else {
-            delete c.retosParticipacion[retoId].fechaEntrega;
-            showToast("↩️ Entrega revertida");
-        }
-        saveToLocalStorage();
-        renderPremiosReto(retoId);
-    }
-
-    // =====================================================================
-    // RENDER LISTA DE RETOS
-    // =====================================================================
-    function renderRetos() {
-        const container = document.getElementById('challenges-list');
-        if (!container) return;
-        container.innerHTML = "";
-
-        if (DATA.retos.length === 0) {
-            container.innerHTML = `<p style="text-align:center;font-size:0.85rem;color:var(--text-light);padding:30px;">No tienes retos creados 💋<br><small>Crea una campaña para motivar compras.</small></p>`;
-            return;
-        }
-
-        // Ordenar: activos primero
-        const orden = { activo:0, pausado:1, finalizado:2, cancelado:3 };
-        const sorted = [...DATA.retos].sort((a,b) => (orden[a.estado]||0) - (orden[b.estado]||0));
-
-        sorted.forEach(r => {
-            // Estadísticas
-            const participantes = DATA.clientas.filter(c => { const { progreso } = calcularProgresoReto(c, r); return progreso > 0; }).length;
-            const completados = DATA.clientas.filter(c => c.retosParticipacion && c.retosParticipacion[r.id] && c.retosParticipacion[r.id].completado).length;
-            const premiosPendientes = DATA.clientas.filter(c => c.retosParticipacion && c.retosParticipacion[r.id] && c.retosParticipacion[r.id].completado && !c.retosParticipacion[r.id].premioEntregado).length;
-
-            const tipoLabels = { cantidad:'🔢 Compras', monto:'💰 Monto', producto:'🛍️ Producto', categoria:'📦 Categoría', participacion:'🎟️ Participación' };
-            const card = document.createElement('div');
-            card.className = `challenge-card estado-${r.estado}`;
-            card.innerHTML = `
-                <div class="challenge-header">
-                    <div class="challenge-title">${r.emoji} ${r.nombre}</div>
-                    <span class="challenge-estado-badge badge-${r.estado}">${r.estado}</span>
-                </div>
-                ${r.descripcion ? `<p class="challenge-meta">📌 ${r.descripcion}</p>` : ''}
-                <p class="challenge-meta">${tipoLabels[r.tipo]||''} · Meta: ${r.meta} · ${r.fechaFin ? '📅 Hasta: '+r.fechaFin : ''}</p>
-                <p class="challenge-prize">🏆 Premio: ${r.premio}</p>
-                <div class="challenge-stats">
-                    <div class="stat-box"><span>${participantes}</span><p>Participantes</p></div>
-                    <div class="stat-box"><span>${completados}</span><p>Completadas</p></div>
-                    <div class="stat-box"><span style="color:${premiosPendientes>0?'var(--warning)':'var(--success)'}">${premiosPendientes}</span><p>Premios Pend.</p></div>
-                </div>
-                <div class="challenge-actions">
-                    <button class="btn btn-secondary btn-icon" onclick="verDetalleReto('${r.id}')" title="Ver participantes">👥</button>
-                    <button class="btn btn-secondary btn-icon" onclick="abrirModalEditarReto('${r.id}')" title="Editar">✏️</button>
-                    <button class="btn btn-secondary btn-icon" onclick="duplicarReto('${r.id}')" title="Duplicar">📋</button>
-                    ${r.estado==='activo' ? `<button class="btn btn-secondary btn-icon" onclick="cambiarEstadoReto('${r.id}','pausado')" title="Pausar">⏸️</button>` : ''}
-                    ${r.estado==='pausado' ? `<button class="btn btn-success btn-icon" onclick="cambiarEstadoReto('${r.id}','activo')" title="Reactivar">▶️</button>` : ''}
-                    ${r.estado!=='finalizado'&&r.estado!=='cancelado' ? `<button class="btn btn-secondary btn-icon" onclick="cambiarEstadoReto('${r.id}','finalizado')" title="Finalizar">🏁</button>` : ''}
-                    <button class="btn btn-danger btn-icon" onclick="eliminarReto('${r.id}')" title="Eliminar">🗑️</button>
-                </div>`;
-            container.appendChild(card);
-        });
-    }
-
-    // =====================================================================
-    // REPORTES
-    // =====================================================================
-    function renderReportes() {
-        let totalVendido=0, totalAdeudo=0, activas=0, inactivas=0, b=0, p=0, o=0, v=0;
         DATA.clientas.forEach(c => {
-            const inf = calcularEstadosYAlertas(c);
-            if (inf.diasInactiva > 40) inactivas++; else activas++;
-            totalAdeudo += c.adeudos.reduce((s,a) => s+a.saldo, 0);
-            c.historial.forEach(h => { if (h.tipo==='compra'||h.tipo==='adeudo') totalVendido += h.monto; });
-            if (c.nivel==='BRONCE') b++; if (c.nivel==='PLATA') p++; if (c.nivel==='ORO') o++; if (c.nivel==='VIP') v++;
+            const { progreso, meta, porcentaje, completado } = calcularProgresoReto(c, reto);
+            if(progreso > 0) {
+                container.innerHTML += `
+                    <div class="participante-row">
+                        <span>${c.nombre}</span>
+                        <span style="font-weight:700">${completado ? '✅ Listo' : `${progreso}/${meta}`}</span>
+                    </div>`;
+            }
         });
-        document.getElementById('rep-ventas').innerText = `$${totalVendido.toFixed(2)}`;
-        document.getElementById('rep-adeudos').innerText = `$${totalAdeudo.toFixed(2)}`;
-        document.getElementById('rep-cobrado').innerText = `$${(totalVendido-totalAdeudo).toFixed(2)}`;
-        document.getElementById('rep-clientes').innerText = `${activas} / ${inactivas}`;
-        document.getElementById('lvl-bronce').innerText = b;
-        document.getElementById('lvl-plata').innerText = p;
-        document.getElementById('lvl-oro').innerText = o;
-        document.getElementById('lvl-vip').innerText = v;
-
-        const retosActivos = DATA.retos.filter(r => r.estado === 'activo').length;
-        const premiosPendientes = DATA.clientas.reduce((total, c) => {
-            if (!c.retosParticipacion) return total;
-            return total + Object.values(c.retosParticipacion).filter(p => p.completado && !p.premioEntregado).length;
-        }, 0);
-        document.getElementById('rep-retos-activos').innerText = retosActivos;
-        document.getElementById('rep-premios-pendientes').innerText = premiosPendientes;
     }
 
-    // =====================================================================
-    // AJUSTES
-    // =====================================================================
+    function eliminarReto(id) {
+        DATA.retos = DATA.retos.filter(r => r.id !== id);
+        saveToLocalStorage();
+        renderRetos();
+        showToast("🗑️ Reto eliminado");
+    }
+
+    function renderReportes() {
+        let totales = 0, saldo = 0;
+        DATA.clientas.forEach(c => {
+            totales += c.comprasAcumuladas || 0;
+            saldo += c.adeudos.reduce((s,a) => s+a.saldo, 0);
+        });
+        document.getElementById('rep-ventas').innerText = `$${totales}`;
+        document.getElementById('rep-adeudos').innerText = `$${saldo}`;
+        document.getElementById('rep-cobrado').innerText = `$${totales - saldo}`;
+    }
+
     function initAjustesForm() {
-        const aj = DATA.ajustes;
-        document.getElementById('cfg-nombre').value = aj.nombre||'';
-        document.getElementById('cfg-tel').value = aj.telefono||'';
-        document.getElementById('cfg-banco').value = aj.banco||'';
-        document.getElementById('cfg-titular').value = aj.titular||'';
-        document.getElementById('cfg-tarjeta').value = aj.tarjeta||'';
-        document.getElementById('cfg-msg-cobranza').value = aj.msgCobranza||'';
-        document.getElementById('cfg-msg-recompra').value = aj.msgRecompra||'';
-        document.getElementById('cfg-msg-invitacion-reto').value = aj.msgInvitacionReto||'';
-        document.getElementById('cfg-msg-avance-reto').value = aj.msgAvanceReto||'';
-        document.getElementById('cfg-msg-reto-completado').value = aj.msgRetoCompletado||'';
-        document.getElementById('cfg-msg-entrega-premio').value = aj.msgEntregaPremio||'';
+        document.getElementById('cfg-nombre').value = DATA.ajustes.nombre || '';
+        document.getElementById('cfg-tel').value = DATA.ajustes.telefono || '';
     }
 
     function saveAjustes(e) {
         e.preventDefault();
         DATA.ajustes.nombre = document.getElementById('cfg-nombre').value;
         DATA.ajustes.telefono = document.getElementById('cfg-tel').value;
-        DATA.ajustes.banco = document.getElementById('cfg-banco').value;
-        DATA.ajustes.titular = document.getElementById('cfg-titular').value;
-        DATA.ajustes.tarjeta = document.getElementById('cfg-tarjeta').value;
         saveToLocalStorage();
-        showToast("⚙️ Configuración guardada");
-    }
-
-    function savePlantillas() {
-        DATA.ajustes.msgCobranza = document.getElementById('cfg-msg-cobranza').value;
-        DATA.ajustes.msgRecompra = document.getElementById('cfg-msg-recompra').value;
-        DATA.ajustes.msgInvitacionReto = document.getElementById('cfg-msg-invitacion-reto').value;
-        DATA.ajustes.msgAvanceReto = document.getElementById('cfg-msg-avance-reto').value;
-        DATA.ajustes.msgRetoCompletado = document.getElementById('cfg-msg-reto-completado').value;
-        DATA.ajustes.msgEntregaPremio = document.getElementById('cfg-msg-entrega-premio').value;
-        saveToLocalStorage();
-        showToast("💬 Plantillas guardadas");
-    }
-
-    // =====================================================================
-    // EXPORTAR / IMPORTAR
-    // =====================================================================
-    function exportarDatos() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DATA));
-        const a = document.createElement('a');
-        a.setAttribute("href", dataStr);
-        a.setAttribute("download", `NanyKiss_${new Date().toISOString().split('T')[0]}.json`);
-        document.body.appendChild(a); a.click(); a.remove();
-        showToast("📤 Respaldo descargado");
-    }
-
-    function importarDatos(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = evt => {
-            try {
-                const parsed = JSON.parse(evt.target.result);
-                if (parsed.clientas && parsed.ajustes) {
-                    DATA = parsed;
-                    saveToLocalStorage();
-                    initAjustesForm();
-                    actualizarTodo();
-                    showToast("📥 Datos importados con éxito");
-                } else { alert("Archivo no válido para Nany Kiss."); }
-            } catch(err) { alert("Error leyendo el archivo JSON."); }
-        };
-        reader.readAsText(file);
+        showToast("🏪 Configuración guardada");
     }
     </script>
 </body>
