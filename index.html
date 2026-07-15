@@ -545,7 +545,7 @@
     function saveClienta() {
         const nombre = document.getElementById('cli-nombre').value.trim();
         let telefono = document.getElementById('cli-telefono').value.trim();
-        const cumpleanos = document.getElementById('cli-cumple').value;
+        const cumpleanos = document.getElementById('cli-cumple');
         const observaciones = document.getElementById('cli-observaciones').value.trim();
 
         if(!nombre || !telefono) { showToast('⚠️ Nombre y teléfono requeridos'); return; }
@@ -574,6 +574,7 @@
         list.innerHTML = '';
         const search = document.getElementById('search-bar').value.toLowerCase();
 
+        // 1. Filtrar primero por nombre en el buscador
         let filtradas = DATA.clientas.filter(c => c.nombre.toLowerCase().includes(search));
 
         if(filtradas.length === 0) {
@@ -581,12 +582,33 @@
             return;
         }
 
+        // Pre-calcular niveles e información de adeudos para el ordenamiento
         filtradas.forEach(c => {
-            const inf = calcularEstadosYAlertas(c);
             c.nivel = calcularNivelClienta(c);
+            c._info = calcularEstadosYAlertas(c);
+            // Sumamos el saldo total de sus adeudos actuales
+            c._saldoAdeudoTotal = c.adeudos ? c.adeudos.reduce((sum, a) => sum + a.saldo, 0) : 0;
+        });
 
+        // 2. ORDENAR INTELIGENTEMENTE: Las que deben van primero (Ordenadas de mayor a menor adeudo)
+        filtradas.sort((a, b) => {
+            if (a._saldoAdeudoTotal > 0 && b._saldoAdeudoTotal === 0) return -1;
+            if (a._saldoAdeudoTotal === 0 && b._saldoAdeudoTotal > 0) return 1;
+            if (a._saldoAdeudoTotal > 0 && b._saldoAdeudoTotal > 0) {
+                return b._saldoAdeudoTotal - a._saldoAdeudoTotal; // Mayor adeudo arriba
+            }
+            return a.nombre.localeCompare(b.nombre); // Si ninguna debe, orden alfabético
+        });
+
+        filtradas.forEach(c => {
             let emojiNivel = c.nivel==='VIP'?'👑':c.nivel==='ORO'?'🥇':c.nivel==='PLATA'?'🥈':'🥉';
-            let labelBadge = inf.status === 'alerta' ? inf.alertMsg : inf.status;
+            let labelBadge = c._info.status === 'alerta' ? c._info.alertMsg : c._info.status;
+
+            // Cambiar dinámicamente el texto de abajo si tiene adeudos para verlo de inmediato
+            let textoDetalle = `Total Acumulado: <strong>$${(c.comprasAcumuladas||0).toFixed(0)}</strong>`;
+            if (c._saldoAdeudoTotal > 0) {
+                textoDetalle = `<span style="color:var(--danger);font-weight:700;">💸 DEBE PENDIENTE: $${c._saldoAdeudoTotal.toFixed(0)}</span>`;
+            }
 
             const div = document.createElement('div');
             div.className = 'client-list-item';
@@ -594,9 +616,9 @@
             div.innerHTML = `
                 <div class="client-info">
                     <h4>${emojiNivel} ${c.nombre}</h4>
-                    <p>Total Acumulado: <strong>$${(c.comprasAcumuladas||0).toFixed(0)}</strong></p>
+                    <p>${textoDetalle}</p>
                 </div>
-                <span class="badge badge-${inf.status}">${labelBadge}</span>
+                <span class="badge badge-${c._info.status}">${labelBadge}</span>
             `;
             list.appendChild(div);
         });
@@ -663,7 +685,7 @@
                 item.innerHTML = `
                     <div><span style="font-size:0.65rem;color:var(--text-light);">${h.fecha}</span><br><strong>${h.detalle}</strong> <span style="font-size:0.7om;color:var(--text-light)">(${h.marca})</span></div>
                     <div style="display:flex;align-items:center;gap:6px;"><span style="font-weight:600;color:${colorTipo}">${h.monto>0?'$'+h.monto:''}</span>
-                    <button class="btn btn-secondary btn-icon" style="width:24px;height:24px;font-size:0.6rem;" onclick="event.stopPropagation(); abrirEditarHistorial(${originalIdx = idxOriginal})">✏️</button></div>
+                    <button class="btn btn-secondary btn-icon" style="width:24px;height:24px;font-size:0.6rem;" onclick="event.stopPropagation(); abrirEditarHistorial(${idxOriginal})">✏️</button></div>
                 `;
                 containerHistorial.appendChild(item);
             });
@@ -798,7 +820,7 @@
 
         document.getElementById('resultado-emoji').innerText = tipoMsg === 'pago-liquidado' ? "🥳" : "💵";
         document.getElementById('resultado-titulo').innerText = tipoMsg === 'pago-liquidado' ? "¡Cuenta Liquidada!" : "¡Abono Registrado!";
-        document.getElementById('resultado-msg').innerText = tipoMsg === 'pago-liquidado' ? `La clienta ha pagado el total de su cuenta.` : `Abono de $${monto} aplicado correctamente.`;
+        document.getElementById('resultado-msg').innerText = tipoMsg === 'pago-liquidado' ? `La clienta ha pagado el total de su cuenta.` : `Abono de $${monto} applied correctamente.`;
         openModal('modal-resultado');
 
         actualizarTodo();
@@ -850,7 +872,6 @@
 
     // RETOS Y CAMPAÑAS
     function abrirModalCrearReto() {
-        document.getElementById('form-reto')?.reset();
         document.getElementById('ret-id').value = '';
         document.getElementById('ret-nombre').value = '';
         document.getElementById('ret-emoji').value = '🎯';
