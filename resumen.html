@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nany Kiss CRM - Resumen Financiero</title>
+  <link rel="stylesheet" href="retos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .kpi-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      text-align: center;
+      border-top: 4px solid var(--primary-color);
+    }
+    .kpi-card h3 {
+      font-size: 0.85rem;
+      color: #747d8c;
+      margin-bottom: 5px;
+    }
+    .kpi-card .monto {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--dark-color);
+    }
+    .kpi-card.alerta {
+      border-top-color: #ff4757;
+    }
+    .kpi-card.alerta .monto {
+      color: #ff4757;
+    }
+    .resumen-lista {
+      margin-top: 15px;
+    }
+    .resumen-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border-bottom: 1px solid #f1f2f6;
+      font-size: 0.95rem;
+    }
+    .resumen-row span.label {
+      color: #57606f;
+      font-weight: 500;
+    }
+    .resumen-row span.valor {
+      font-weight: bold;
+      color: var(--dark-color);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Nany Kiss CRM</h1>
+    <div class="logo-sub">Resumen de Ventas por Catálogo</div>
+  </header>
+
+  <main class="container" style="margin-bottom: 70px;">
+    
+    <!-- Tarjetas de impacto rápido para control del negocio -->
+    <div class="kpi-container">
+      <div class="kpi-card" style="border-top-color: #2ed573;">
+        <h3>Dinero Cobrado</h3>
+        <div class="monto" id="kpi-cobrado">$0.00</div>
+      </div>
+      <div class="kpi-card alerta">
+        <h3>Por Cobrar (En la Calle)</h3>
+        <div class="monto" id="kpi-por-cobrar">$0.00</div>
+      </div>
+    </div>
+
+    <!-- Sección de desglose general -->
+    <div class="card">
+      <h2><i class="fa-solid fa-chart-line"></i> Desglose del Mes</h2>
+      <p style="font-size: 0.85rem; color: #747d8c; margin-bottom: 10px;">Balance actual basado en las hojas de pedidos y parcialidades.</p>
+      
+      <div class="resumen-lista">
+        <div class="resumen-row">
+          <span class="label">Total de Ventas Registradas</span>
+          <span class="valor" id="total-pedidos">0</span>
+        </div>
+        <div class="resumen-row">
+          <span class="label">Ventas en Parcialidades Activas</span>
+          <span class="valor" id="pedidos-parciales">0</span>
+        </div>
+        <div class="resumen-row">
+          <span class="label">Ventas Liquidadas (Pago Total)</span>
+          <span class="valor" id="pedidos-liquidados">0</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Menú Inferior de Navegación Fijo (Con la pestaña Ajustes) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-address-book"></i>
+      <span>Clientes</span>
+    </a>
+    <a href="retos.html" class="nav-item">
+      <i class="fa-solid fa-trophy"></i>
+      <span>Retos</span>
+    </a>
+    <a href="agenda.html" class="nav-item">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Agenda</span>
+    </a>
+    <a href="resumen.html" class="nav-item active">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Resumen</span>
+    </a>
+    <a href="#" class="nav-item" onclick="alert('Próximo módulo: Ajustes')">
+      <i class="fa-solid fa-gear"></i>
+      <span>Ajustes</span>
+    </a>
+  </nav>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nany Kiss CRM - Agenda y Layaway</title>
+  <link rel="stylesheet" href="retos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .alerta-tiempo {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    .status-critico {
+      background-color: #ff4757;
+      color: white;
+    }
+    .status-limite {
+      background-color: #ffa502;
+      color: white;
+    }
+    .status-seguro {
+      background-color: #2ed573;
+      color: white;
+    }
+    .regla-nota {
+      background-color: #f1f2f6;
+      border-left: 4px solid #747d8c;
+      padding: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+      color: #57606f;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Nany Kiss CRM</h1>
+    <div class="logo-sub">Agenda & Control de Layaway</div>
+  </header>
+
+  <main class="container" style="margin-bottom: 70px;">
+    
+    <!-- Regla de Negocio de las parcialidades -->
+    <div class="regla-nota">
+      <i class="fa-solid fa-circle-info"></i> <strong>Monitoreo de Agenda:</strong> Aquí podrás revisar los próximos cobros programados de tus ventas en parcialidades, divididos por el periodo elegido (Semanal o Quincenal).
+    </div>
+
+    <div class="tab-container" style="margin-bottom: 15px;">
+      <button class="nav-tab active" onclick="switchAgendaTab('apartados')">Monitoreo Apartados</button>
+      <button class="nav-tab" onclick="switchAgendaTab('citas')">Citas del Mes</button>
+    </div>
+
+    <!-- SECCIÓN DE APARTADOS -->
+    <div id="sec-apartados" class="tab-content active">
+      <div class="card">
+        <h2>Próximos Cobros</h2>
+        <p style="font-size: 0.85rem; color: #747d8c; margin-bottom: 15px;">Control de fechas para abonos semanales y quincenales.</p>
+        
+        <div id="lista-layaway">
+          <!-- Los apartados reales se inyectarán desde agenda.js -->
+          <p style="text-align: center; color: #747d8c;">Cargando calendario de pagos...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN DE CITAS -->
+    <div id="sec-citas" class="tab-content">
+      <div class="card">
+        <h2>Calendario de Citas</h2>
+        <div id="lista-citas-calendario" style="margin-top: 15px;">
+          <p style="text-align: center; color: #747d8c;">Cargando próximas citas...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Menú Inferior de Navegación Fijo COMPLETO -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-address-book"></i>
+      <span>Clientes</span>
+    </a>
+    <a href="retos.html" class="nav-item">
+      <i class="fa-solid fa-trophy"></i>
+      <span>Retos</span>
+    </a>
+    <a href="agenda.html" class="nav-item active">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Agenda</span>
+    </a>
+    <a href="resumen.html" class="nav-item">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Resumen</span>
+    </a>
+    <a href="ajustes.html" class="nav-item">
+      <i class="fa-solid fa-gear"></i>
+      <span>Ajustes</span>
+    </a>
+  </nav>
+
+  <!-- Vinculamos el motor específico para la agenda -->
+  <script src="agenda.js"></script>
+  <script>
+    // Función para intercambiar entre las pestañas internas de la agenda
+    function switchAgendaTab(tab) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      if(tab === 'apartados') {
+        document.querySelector('button[onclick="switchAgendaTab(\'apartados\')"]').classList.add('active');
+        document.getElementById('sec-apartados').classList.add('active');
+      } else {
+        document.querySelector('button[onclick="switchAgendaTab(\'citas\')"]').classList.add('active');
+        document.getElementById('sec-citas').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

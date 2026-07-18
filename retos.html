@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nany Kiss CRM - Retos de Fidelización</title>
+  <link rel="stylesheet" href="retos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Nany Kiss CRM</h1>
+    <div class="logo-sub">Sistema de Fidelización y Retos</div>
+  </header>
+
+  <main class="container" style="margin-bottom: 70px;">
+    
+    <div class="tab-container">
+      <button class="nav-tab active" onclick="switchTab('lista')">Ver Clientes y Retos</button>
+      <button class="nav-tab" onclick="switchTab('nuevo')">Nuevo Reto / Venta</button>
+    </div>
+
+    <!-- PESTAÑA: LISTA DE RETOS -->
+    <div id="tab-lista" class="tab-content active">
+      <div class="card">
+        <h2>Progreso de Clientas</h2>
+        <div id="lista-retos">
+          <!-- Se cargan dinámicamente -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA: NUEVO RETO -->
+    <div id="tab-nuevo" class="tab-content">
+      <div class="card">
+        <h2>Registrar Actividad</h2>
+        <form id="form-reto" onsubmit="registrarReto(event)">
+          <div class="form-group">
+            <label>Seleccionar Clienta</label>
+            <select id="select-clienta" required>
+              <option value="">Cargando clientas...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tipo de Registro</label>
+            <select id="tipo-registro" onchange="evaluarTipoRegistro()" required>
+              <option value="Venta Directa">Venta Directa (Pago Total)</option>
+              <option value="Adeudo">Venta en Parcialidades (Deuda)</option>
+              <option value="Abono">Abono a Cuenta</option>
+              <option value="Liquidación">Liquidación de Venta</option>
+            </select>
+          </div>
+
+          <!-- SECCIÓN DINÁMICA: Preguntar periodo de pago si es en parcialidades -->
+          <div class="form-group hidden" id="grupo-frecuencia">
+            <label>Frecuencia del Recordatorio de Pago</label>
+            <select id="frecuencia-pago">
+              <option value="Semanal">Cada Semana (7 días)</option>
+              <option value="Quincenal">Cada Quincena (15 días)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Monto ($)</label>
+            <input type="number" id="monto-reto" min="1" placeholder="Ej. 450" required>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Guardar Registro</button>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-address-book"></i>
+      <span>Clientes</span>
+    </a>
+    <a href="retos.html" class="nav-item active">
+      <i class="fa-solid fa-trophy"></i>
+      <span>Retos</span>
+    </a>
+    <a href="agenda.html" class="nav-item">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Agenda</span>
+    </a>
+    <a href="resumen.html" class="nav-item">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Resumen</span>
+    </a>
+    <a href="#" class="nav-item" onclick="alert('Próximo módulo: Ajustes')">
+      <i class="fa-solid fa-gear"></i>
+      <span>Ajustes</span>
+    </a>
+  </nav>
+
+  <script src="retos.js"></script>
+  <script>
+    // Mostrar u ocultar la pregunta de Semana/Quincena según la selección
+    function evaluarTipoRegistro() {
+      const tipo = document.getElementById('tipo-registro').value;
+      const grupoFrecuencia = document.getElementById('grupo-frecuencia');
+      
+      if (tipo === 'Adeudo') {
+        grupoFrecuencia.classList.remove('hidden');
+        document.getElementById('frecuencia-pago').setAttribute('required', 'true');
+      } else {
+        grupoFrecuencia.classList.add('hidden');
+        document.getElementById('frecuencia-pago').removeAttribute('required');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+:root {
+  --primary-color: #FF6B8B; /* El característico rosa */
+  --secondary-color: #D4AF37; /* Toque dorado para premios y metas */
+  --dark-color: #2F3542;
+  --light-bg: #F1F2F6;
+  --whatsapp-green: #25D366;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--light-bg);
+  color: var(--dark-color);
+  padding-bottom: 30px;
+}
+
+/* Header Estilo Nany Kiss */
+.app-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #ff477e 100%);
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.logo-sub {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.btn-back {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* Navegación por pestañas */
+.retos-nav {
+  display: flex;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nav-tab {
+  flex: 1;
+  border: none;
+  background: none;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #747d8c;
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.container {
+  padding: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Tarjetas */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f1f2f6;
+  padding-bottom: 8px;
+}
+
+/* Formularios */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #57606f;
+}
+
+input[type="text"], input[type="date"], select {
+  width: 100%;
+  padding: 10px;
+  border: 1.5px solid #ced6e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-color);
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.radio-label {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Vista previa de WhatsApp */
+.whatsapp-preview {
+  background-color: #E5DDD5;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px 0;
+  border: 1px solid #ced6e0;
+}
+
+.preview-header {
+  background-color: #075E54;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.preview-body {
+  padding: 12px;
+  font-size: 0.9rem;
+  background-color: #DCF8C6;
+  border-radius: 7px;
+  margin: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Botones */
+.actions-container {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #747d8c;
+  color: white;
+}
+
+/* Secciones de Contenido */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* Listas de Seguimiento y Participantes */
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #747d8c;
+  font-size: 1.1rem;
+}
+
+.filtros-clientes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.filter-btn {
+  flex: 1;
+  background-color: white;
+  border: 1px solid #ced6e0;
+  border-radius: 20px;
+  padding: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Fichas de progreso individuales */
+.participante-card {
+  background: #fdfdfd;
+  border: 1px solid #eccc68; /* Borde dorado suave */
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.participante-card.completado {
+  border-color: var(--primary-color);
+  background: #fff0f3;
+}
+
+.part-nombre {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.part-progreso {
+  font-size: 0.85rem;
+  color: #57606f;
+  margin: 5px 0;
+}
+
+.btn-wa {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-wa.pendiente {
+  background-color: var(--whatsapp-green);
+}
+
+.btn-wa.ganadora {
+  background-color: var(--primary-color);
+}
