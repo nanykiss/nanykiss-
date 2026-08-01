@@ -1,0 +1,256 @@
+/* ==========================================
+   🎀 NANY KISS CRM - ESTILOS DASHBOARD
+   Identidad visual: Rosa/Pastel/Limpio (Mobile First)
+   ========================================== */
+
+:root {
+  --primary: #d63384;
+  --primary-light: #f8d7da;
+  --bg-main: #faf9f6;
+  --card-bg: #ffffff;
+  --text-dark: #2b2b2b;
+  --text-muted: #6c757d;
+  
+  /* Semáforo & Estados */
+  --red-status: #dc3545;
+  --yellow-status: #ffc107;
+  --green-status: #198754;
+  --gift-color: #6f42c1;
+  --cake-color: #fd7e14;
+  
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent; /* Elimina el recuadro azul al tocar en móvil */
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-dark);
+  padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px)); /* Soporte para Safe Area */
+}
+
+/* ENCABEZADO */
+.app-header {
+  background-color: var(--card-bg);
+  text-align: center;
+  padding: 16px 10px;
+  box-shadow: var(--shadow-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-title {
+  color: var(--primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.app-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.app-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* VISTAS */
+.vista.hidden { display: none; }
+.vista.active { display: block; }
+
+/* 1. TARJETAS DE RESUMEN (KPIs) */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border-left: 5px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Retroalimentación táctil */
+.kpi-card:active,
+.cliente-card:active,
+.reto-card:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.kpi-card.red { border-left-color: var(--red-status); }
+.kpi-card.yellow { border-left-color: var(--yellow-status); }
+.kpi-card.gift { border-left-color: var(--gift-color); }
+.kpi-card.cake { border-left-color: var(--cake-color); }
+.kpi-card.green { 
+  border-left-color: var(--green-status); 
+  grid-column: span 2;
+}
+
+.kpi-icon { font-size: 1.5rem; }
+.kpi-count { font-size: 1.6rem; font-weight: 800; margin: 4px 0; }
+.kpi-label { font-size: 0.75rem; color: var(--text-muted); text-align: center; }
+
+/* 2. RETOS ACTIVOS */
+.section-title {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.retos-section { margin-bottom: 20px; }
+.reto-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 1px solid #eee;
+  transition: transform 0.15s ease;
+}
+
+.reto-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.reto-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* 3. BÚSQUEDA */
+.search-section { margin-bottom: 20px; }
+.search-box {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  margin-left: 10px;
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+/* 4. TARJETA DE CLIENTE */
+.cliente-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.15s ease;
+}
+
+.cliente-info h3 { font-size: 1rem; color: var(--text-dark); }
+.cliente-info p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+/* BARRAS DE ESTADO DENTRO DE LA TARJETA */
+.status-bars {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.status-bar {
+  width: 12px;
+  height: 38px;
+  border-radius: 6px;
+}
+
+.status-bar.red { background-color: var(--red-status); }
+.status-bar.yellow { background-color: var(--yellow-status); }
+.status-bar.green { background-color: var(--green-status); }
+
+.habit-bar.contado { background-color: #6f42c1; } /* 🟣 Contado */
+.habit-bar.parcialidades { background-color: #e83e8c; } /* 🩷 Parcialidades */
+
+/* VISTA CABECERA */
+.vista-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+/* BARRA INFERIOR DE NAVEGACIÓN */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.nav-icon { font-size: 1.2rem; }

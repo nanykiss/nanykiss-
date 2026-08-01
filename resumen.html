@@ -1,0 +1,234 @@
+<!-- MÓDULO RESUMEN - NANY KISS CRM -->
+<div id="vista-resumen-principal" class="resumen-container">
+
+  <!-- TARJETAS DE MÉTRICAS GLOBALES -->
+  <div class="grid-cards-resumen">
+    
+    <!-- Ventas del Mes -->
+    <div class="card-nk">
+      <div class="card-icon">💰</div>
+      <div class="card-title">Ventas del Mes</div>
+      <div class="card-value" id="lbl-ventas-mes">$0.00</div>
+      <div class="card-subtitle">Inicia desde cero el día 1</div>
+    </div>
+
+    <!-- Saldo por Cobrar -->
+    <div class="card-nk">
+      <div class="card-icon">💳</div>
+      <div class="card-title">Saldo por Cobrar</div>
+      <div class="card-value txt-warning" id="lbl-saldo-cobrar">$0.00</div>
+      <div class="card-subtitle">Total histórico pendiente</div>
+    </div>
+
+    <!-- Clientas Activas -->
+    <div class="card-nk">
+      <div class="card-icon">👩</div>
+      <div class="card-title">Clientas Activas</div>
+      <div class="card-value" id="lbl-clientas-activas">0 / 0</div>
+      <div class="card-subtitle">Compraron este mes / Registradas</div>
+    </div>
+
+  </div>
+
+  <!-- TARJETA UTILIDAD ESTIMADA -->
+  <div class="card-nk card-destacada">
+    <div class="card-header-nk">
+      <span class="card-icon">💎</span>
+      <h3>UTILIDAD ESTIMADA</h3>
+    </div>
+    
+    <div class="utilidad-main-display">
+      <div class="porcentaje-big" id="lbl-porcentaje-real">0%</div>
+      <div class="monto-big" id="lbl-dinero-real">$0.00</div>
+    </div>
+
+    <div class="utilidad-comparativa">
+      <span>Utilidad Empresa: <strong id="lbl-utilidad-empresa">0%</strong></span>
+      <span>Utilidad Real: <strong id="lbl-utilidad-real-comparativa">0%</strong></span>
+    </div>
+
+    <p class="nota-credito">
+      * Basada en costos reales, gastos operativos y costos de la empresa.
+    </p>
+
+    <button class="btn-nk btn-primary w-100" onclick="abrirPantallaAnalizarCampana()">
+      📦 Analizar Campaña
+    </button>
+  </div>
+
+  <!-- TARJETA CAMPAÑA ACTIVA -->
+  <div class="card-nk">
+    <h3>Campaña Activa</h3>
+    <div class="campana-status-box">
+      <div><strong>Marca:</strong> <span id="lbl-activa-marca">Sin seleccionar</span></div>
+      <div><strong>Campaña:</strong> <span id="lbl-activa-numero">-</span></div>
+      <div>
+        <strong>Estado:</strong> 
+        <span id="lbl-activa-estado" class="badge-status badge-analisis">🟡 En análisis</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN REPORTES PDF -->
+  <div class="card-nk">
+    <h3>Reportes PDF</h3>
+    <div class="grid-reportes-botones">
+      <button class="btn-nk btn-outline" onclick="solicitarReportePDF('marca_mas_vendida')">🛍 Producto o marca más vendida</button>
+      <button class="btn-nk btn-outline" onclick="solicitarReportePDF('historial_clienta')">👩 Historial de una clienta</button>
+      <button class="btn-nk btn-outline" onclick="solicitarReportePDF('total_vendido')">💰 Total vendido</button>
+      <button class="btn-nk btn-outline" onclick="solicitarReportePDF('historial_rentabilidad')">💎 Historial de rentabilidad</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- PANTALLA INDEPENDIENTE: ANALIZAR CAMPAÑA -->
+<div id="vista-analizar-campana" class="pantalla-independiente" style="display:none;">
+  
+  <div class="top-bar-analisis">
+    <button class="btn-nk btn-secondary" onclick="volverAResumenPrincipal()">← Volver al Resumen</button>
+    <h2>Análisis de Campaña</h2>
+  </div>
+
+  <!-- SELECCIÓN Y CONTROLES -->
+  <div class="card-nk">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Marca</label>
+        <select id="sel-marca-analisis">
+          <option value="">Seleccione marca...</option>
+          <option value="Natura">Natura</option>
+          <option value="Jafra">Jafra</option>
+          <option value="Betterware">Betterware</option>
+          <option value="Stanhome">Stanhome</option>
+          <option value="Andrea">Andrea</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-group-row mt-10">
+      <button class="btn-nk btn-primary" onclick="iniciarNuevaCampana()">➕ Nueva campaña</button>
+      <button class="btn-nk btn-outline" onclick="toggleHistorialMarcas()">📂 Historial</button>
+    </div>
+  </div>
+
+  <!-- PANEL HISTORIAL AGRUPADO -->
+  <div id="panel-historial-marcas" class="card-nk" style="display:none;">
+    <h3>Historial por Marca</h3>
+    <div id="contenedor-historial-agrupado">
+      <p class="subtext">Cargando campañas guardadas...</p>
+    </div>
+  </div>
+
+  <!-- SELECTOR DE MODO -->
+  <div class="card-nk">
+    <label><strong>Selecciona el Modo de Cálculo:</strong></label>
+    <div class="selector-modos">
+      <button id="btn-modo-rapido" class="btn-modo active" onclick="cambiarModoAnalisis('rapido')">⚡ Modo Rápido</button>
+      <button id="btn-modo-completo" class="btn-modo" onclick="cambiarModoAnalisis('completo')">📋 Modo Completo</button>
+    </div>
+  </div>
+
+  <!-- DATOS GENERALES -->
+  <div class="card-nk">
+    <h3>Datos Generales</h3>
+    <div class="grid-form-2col">
+      <div class="form-group">
+        <label>Número de Campaña</label>
+        <input type="text" id="txt-num-campana" placeholder="Ej. C-09">
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="txt-fecha-campana">
+      </div>
+      <div class="form-group">
+        <label>Total Factura ($)</label>
+        <input type="number" id="txt-total-factura" placeholder="0.00" onchange="recalcularAuto()">
+      </div>
+      <div class="form-group">
+        <label>Ganancia Empresa ($)</label>
+        <input type="number" id="txt-ganancia-empresa" placeholder="0.00" onchange="recalcularAuto()">
+      </div>
+      <div class="form-group">
+        <label>Flete ($)</label>
+        <input type="number" id="txt-flete" placeholder="0.00" onchange="recalcularAuto()">
+      </div>
+      <div class="form-group">
+        <label>Gastos Admin Empresa ($)</label>
+        <input type="number" id="txt-gastos-admin" placeholder="0.00" onchange="recalcularAuto()">
+      </div>
+    </div>
+    <div class="form-group mt-10">
+      <label>Observaciones</label>
+      <input type="text" id="txt-observaciones" placeholder="Notas o detalles de esta campaña">
+    </div>
+  </div>
+
+  <!-- CHECKLIST COSTOS OPERATIVOS -->
+  <div class="card-nk">
+    <h3>Costos Operativos Asociados (Ajustes)</h3>
+    <p class="subtext">Selecciona los insumos que aplicarán a esta entrega:</p>
+    <div id="container-checklist-costos" class="checklist-grid">
+      <!-- Se llena dinámicamente -->
+    </div>
+  </div>
+
+  <!-- CAPTURA MODO RÁPIDO -->
+  <div id="seccion-captura-rapida" class="card-nk">
+    <h3>Estimación Rápida de Producto</h3>
+    <div class="grid-form-2col">
+      <div class="form-group">
+        <label>Producto</label>
+        <input type="text" id="rapido-nombre" placeholder="Nombre del producto">
+      </div>
+      <div class="form-group">
+        <label>Precio Catálogo ($)</label>
+        <input type="number" id="rapido-precio" placeholder="0.00">
+      </div>
+    </div>
+    <div class="disclaimer-info mt-10">
+      💡 <em>Este resultado es una estimación. Para mayor precisión utiliza el Modo Completo.</em>
+    </div>
+  </div>
+
+  <!-- CAPTURA MODO COMPLETO -->
+  <div id="seccion-captura-productos" class="card-nk" style="display:none;">
+    <h3>Productos de la Campaña</h3>
+    <div class="table-responsive">
+      <table class="tabla-nk" id="tabla-productos-campana">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cant.</th>
+            <th>Precio Catálogo ($)</th>
+            <th>¿Regalo?</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-productos">
+          <!-- Filas agregadas dinámicamente -->
+        </tbody>
+      </table>
+    </div>
+    <button class="btn-nk btn-outline mt-10" onclick="agregarFilaProducto()">➕ Agregar producto</button>
+  </div>
+
+  <!-- BARRAS Y RESULTADOS -->
+  <div class="card-nk text-center">
+    <button class="btn-nk btn-primary btn-lg" onclick="ejecutarCalculoCampana()">🧮 Calcular Campaña</button>
+  </div>
+
+  <div id="card-resultados-campana" class="card-nk card-destacada" style="display:none;">
+    <h3>Resultados del Análisis</h3>
+    <div class="grid-form-2col mt-10">
+      <div>Utilidad Total: <strong id="res-utilidad-total" class="monto-big">$0.00</strong></div>
+      <div>Porcentaje Real: <strong id="res-porcentaje-real" class="porcentaje-big">0%</strong></div>
+      <div>Producto Mayor Utilidad: <strong id="res-prod-mayor" class="txt-success">-</strong></div>
+      <div>Producto Menor Utilidad: <strong id="res-prod-menor" class="txt-warning">-</strong></div>
+    </div>
+    <div class="btn-group-row mt-15">
+      <button class="btn-nk btn-success" onclick="guardarCampanaEnBackend()">💾 Guardar Campaña</button>
+    </div>
+  </div>
+
+</div>

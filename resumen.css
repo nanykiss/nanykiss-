@@ -1,0 +1,388 @@
+/* ==========================================
+   NANY KISS CRM - ESTILOS RESUMEN & ANÁLISIS
+   ========================================== */
+
+/* --- CONTENEDORES PRINCIPALES --- */
+.resumen-container, 
+.pantalla-independiente {
+  padding: 15px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* --- TARJETAS DE MÉTRICAS (GRID) --- */
+.grid-cards-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card-nk {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f2e6ee;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.card-nk h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #8a2b6e;
+  font-size: 1.1rem;
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.card-title {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+}
+
+.card-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin: 5px 0;
+}
+
+.card-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* TARJETA DESTACADA (UTILIDAD ESTIMADA) */
+.card-destacada {
+  border: 2px solid #d883b7;
+  background: linear-gradient(180deg, #ffffff 0%, #fdf8fa 100%);
+}
+
+.card-header-nk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.card-header-nk h3 {
+  margin: 0;
+}
+
+.porcentaje-big {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #8a2b6e;
+}
+
+.monto-big {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.utilidad-main-display {
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.utilidad-comparativa {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-top: 1px dashed #e2c2d6;
+  font-size: 0.9rem;
+}
+
+.nota-credito {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+/* --- BOTONES Y CONTROLES --- */
+.btn-nk {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.btn-nk:active {
+  transform: scale(0.98);
+}
+
+.btn-primary { background: #8a2b6e; color: #fff; }
+.btn-primary:hover { background: #73225a; }
+
+.btn-secondary { background: #6c757d; color: #fff; }
+.btn-secondary:hover { background: #5a6268; }
+
+.btn-success { background: #2e7d32; color: #fff; }
+.btn-success:hover { background: #236127; }
+
+.btn-danger { background: #d32f2f; color: #fff; padding: 4px 8px; }
+.btn-danger:hover { background: #b71c1c; }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #8a2b6e;
+  color: #8a2b6e;
+}
+.btn-outline:hover { background: #fdf2f8; }
+
+.btn-lg {
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.btn-group-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* --- SELECTOR DE MODOS --- */
+.selector-modos {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-modo {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d883b7;
+  background: #fff;
+  color: #8a2b6e;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-modo.active {
+  background: #8a2b6e;
+  color: #fff;
+}
+
+/* --- FORMULARIOS Y GRIDS --- */
+.grid-form-2col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  color: #555;
+  font-weight: 600;
+}
+
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: #8a2b6e;
+  box-shadow: 0 0 0 2px rgba(138, 43, 110, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* --- CHECKLIST COSTOS --- */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.checkbox-costo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  background: #fdf8fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #f2e6ee;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-costo-item input[type="checkbox"] {
+  accent-color: #8a2b6e;
+  width: 16px;
+  height: 16px;
+}
+
+/* --- TABLAS RESPONSIVAS --- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla-nk {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.tabla-nk th, 
+.tabla-nk td {
+  padding: 10px 8px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+.tabla-nk th {
+  background: #fdf2f8;
+  color: #8a2b6e;
+  font-weight: 600;
+}
+
+.tabla-nk td input {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- HISTORIAL & REPORTES --- */
+.historial-grupo-marca {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.historial-grupo-marca h4 {
+  margin: 0 0 8px 0;
+  color: #8a2b6e;
+}
+
+.historial-grupo-marca ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.88rem;
+}
+
+.historial-grupo-marca li {
+  margin-bottom: 4px;
+}
+
+.grid-reportes-botones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.top-bar-analisis {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.top-bar-analisis h2 {
+  margin: 0;
+  color: #8a2b6e;
+  font-size: 1.4rem;
+}
+
+.campana-status-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+/* --- CLASES DE UTILIDAD & BADGES --- */
+.w-100 { width: 100%; }
+.mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
+.text-center { text-align: center; }
+.subtext { font-size: 0.85rem; color: #666; margin-top: -5px; }
+.disclaimer-info { font-size: 0.85rem; color: #555; background: #fff8e1; padding: 8px 12px; border-radius: 6px; }
+
+.txt-warning { color: #e65100; }
+.txt-success { color: #2e7d32; }
+
+.badge-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-analisis { background: #fff3cd; color: #856404; }
+.badge-activa { background: #d4edda; color: #155724; }
+
+/* --- ADAPTACIÓN MÓVIL --- */
+@media (max-width: 600px) {
+  .resumen-container, 
+  .pantalla-independiente {
+    padding: 10px;
+  }
+
+  .grid-cards-resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .utilidad-main-display {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .top-bar-analisis {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .grid-reportes-botones {
+    grid-template-columns: 1fr;
+  }
+}

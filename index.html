@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nany Kiss CRM - Dashboard</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="app-header">
+    <h1 class="app-title">🎀 Nany Kiss 🎀</h1>
+    <p class="app-subtitle">Seguimiento de clientes y ventas</p>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DINÁMICO -->
+  <main id="app-container" class="app-container">
+
+    <!-- VISTA: DASHBOARD PRINCIPAL -->
+    <section id="vista-dashboard" class="vista active">
+      
+      <!-- TARJETAS RESUMEN / KPIs (6 TARJETAS) -->
+      <section class="kpi-grid">
+        <article class="kpi-card red" data-filtro="cobranza">
+          <span class="kpi-icon">🔴</span>
+          <span class="kpi-count" id="count-cobranza">0</span>
+          <span class="kpi-label">Por cobrar</span>
+        </article>
+
+        <article class="kpi-card yellow" data-filtro="recompra">
+          <span class="kpi-icon">🟡</span>
+          <span class="kpi-count" id="count-recompra">0</span>
+          <span class="kpi-label">Recompra</span>
+        </article>
+
+        <article class="kpi-card gift" data-filtro="regalos">
+          <span class="kpi-icon">🎁</span>
+          <span class="kpi-count" id="count-regalos">0</span>
+          <span class="kpi-label">Regalos pendientes</span>
+        </article>
+
+        <article class="kpi-card cake" data-filtro="cumpleanos">
+          <span class="kpi-icon">🎂</span>
+          <span class="kpi-count" id="count-cumpleanos">0</span>
+          <span class="kpi-label">Cumpleaños</span>
+        </article>
+
+        <article class="kpi-card green" data-filtro="al-corriente">
+          <span class="kpi-icon">🟢</span>
+          <span class="kpi-count" id="count-al-corriente">0</span>
+          <span class="kpi-label">Al corriente</span>
+        </article>
+
+        <article class="kpi-card star" data-filtro="casi-regalo">
+          <span class="kpi-icon">⭐</span>
+          <span class="kpi-count" id="count-casi-regalo">0</span>
+          <span class="kpi-label">A una compra del regalo</span>
+        </article>
+      </section>
+
+      <!-- RETOS ACTIVOS -->
+      <section class="retos-section">
+        <h2 class="section-title">🏆 Retos Activos</h2>
+        <div id="retos-lista" class="retos-container">
+          <!-- Se renderiza dinámicamente desde index.js -->
+        </div>
+      </section>
+
+      <!-- BARRA DE BÚSQUEDA -->
+      <section class="search-section">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="input-busqueda" placeholder="Buscar cliente, marca o producto..." autocomplete="off">
+        </div>
+      </section>
+
+      <!-- REGISTRO RÁPIDO DE VENTAS (BOTÓN DESTACADO) -->
+      <section class="quick-sale-section">
+        <button id="btn-abrir-registro-venta" class="btn-quick-sale">
+          ➕ Registrar venta
+        </button>
+      </section>
+
+      <!-- LISTA DE CLIENTES GENERAL -->
+      <section class="clientes-section">
+        <h2 class="section-title">👥 Prioridad de Atención</h2>
+        <div id="lista-clientes-general" class="clientes-container">
+          <!-- Reutiliza las tarjetas de clientes -->
+        </div>
+      </section>
+
+    </section>
+
+    <!-- VISTA: FILTRADA (ACCESOS RÁPIDOS) -->
+    <section id="vista-filtrada" class="vista hidden">
+      <div class="vista-header">
+        <button id="btn-regresar-dashboard" class="btn-back">⬅️ Regresar</button>
+        <h2 id="titulo-vista-filtrada" class="vista-title">Lista Filtrada</h2>
+      </div>
+      <div id="lista-clientes-filtrados" class="clientes-container">
+        <!-- Reutiliza las tarjetas de clientes -->
+      </div>
+    </section>
+
+    <!-- VISTA: FICHA DEL CLIENTE (CONSUMO) -->
+    <section id="vista-ficha-cliente" class="vista hidden">
+      <div class="vista-header">
+        <button id="btn-regresar-filtrada" class="btn-back">⬅️ Regresar</button>
+        <h2 class="vista-title">Ficha de Clienta</h2>
+      </div>
+      <div id="contenedor-ficha-cliente">
+        <!-- Se invoca la ficha del módulo Clientes -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL / PANTALLA: REGISTRAR VENTA (3 OPCIONES) -->
+  <div id="modal-registro-venta" class="modal-nk hidden">
+    <div class="modal-nk-content">
+      <div class="modal-nk-header">
+        <h3>➕ Registrar Venta</h3>
+        <button id="btn-cerrar-modal-venta" class="btn-close-modal">✖</button>
+      </div>
+
+      <!-- SELECTOR DE OPCIONES -->
+      <div class="opciones-venta-tabs">
+        <button id="tab-venta-rapida" class="tab-btn active" data-opcion="rapida">💰 Venta rápida</button>
+        <button id="tab-venta-cliente" class="tab-btn" data-opcion="existente">👤 Clienta existente</button>
+        <button id="tab-venta-nueva" class="tab-btn" data-opcion="nueva">➕ Nueva clienta</button>
+      </div>
+
+      <div class="modal-nk-body">
+        <!-- FORMULARIO 1: VENTA RÁPIDA -->
+        <form id="form-venta-rapida" class="form-venta-opcion">
+          <div class="form-group-nk">
+            <label>Monto ($)</label>
+            <input type="number" id="vr-monto" placeholder="0.00" step="0.01" required>
+          </div>
+          <div class="form-group-nk">
+            <label>Fecha</label>
+            <input type="date" id="vr-fecha" required>
+          </div>
+          <div class="form-group-nk">
+            <label>Método de Pago</label>
+            <select id="vr-metodo">
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Tarjeta">Tarjeta</option>
+            </select>
+          </div>
+          <div class="form-group-nk">
+            <label>Observaciones (opcional)</label>
+            <input type="text" id="vr-observaciones" placeholder="Notas sobre la venta">
+          </div>
+          <button type="submit" class="btn-nk-submit">Guardar Venta Rápida</button>
+        </form>
+
+        <!-- FORMULARIO 2: CLIENTA EXISTENTE -->
+        <form id="form-venta-existente" class="form-venta-opcion hidden">
+          <div class="form-group-nk">
+            <label>Monto ($)</label>
+            <input type="number" id="ve-monto" placeholder="0.00" step="0.01" required>
+          </div>
+          <div class="form-group-nk relative-box">
+            <label>Buscador Inteligente de Clienta</label>
+            <input type="text" id="ve-buscador-cliente" placeholder="Escribe el nombre de la clienta..." autocomplete="off">
+            <input type="hidden" id="ve-cliente-id">
+            <div id="dropdown-resultados-clientes" class="dropdown-autocompletar hidden"></div>
+          </div>
+          <div class="form-group-nk">
+            <label>Método de Pago</label>
+            <select id="ve-metodo">
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Tarjeta">Tarjeta</option>
+            </select>
+          </div>
+          <div class="form-group-nk">
+            <label>Observaciones</label>
+            <input type="text" id="ve-observaciones" placeholder="Detalle de productos o notas">
+          </div>
+          <button type="submit" class="btn-nk-submit">Registrar Venta a Clienta</button>
+        </form>
+
+        <!-- FORMULARIO 3: CREAR CLIENTA Y ASIGNAR VENTA -->
+        <form id="form-venta-nueva" class="form-venta-opcion hidden">
+          <div class="form-group-nk">
+            <label>Nombre de la Clienta</label>
+            <input type="text" id="vn-nombre" placeholder="Nombre completo" required>
+          </div>
+          <div class="form-group-nk">
+            <label>Teléfono (opcional)</label>
+            <input type="tel" id="vn-telefono" placeholder="10 dígitos">
+          </div>
+          <div class="form-group-nk">
+            <label>Monto de la Venta ($)</label>
+            <input type="number" id="vn-monto" placeholder="0.00" step="0.01" required>
+          </div>
+          <div class="form-group-nk">
+            <label>Método de Pago</label>
+            <select id="vn-metodo">
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Tarjeta">Tarjeta</option>
+            </select>
+          </div>
+          <div class="form-group-nk">
+            <label>Observaciones</label>
+            <input type="text" id="vn-observaciones" placeholder="Primer compra / notas">
+          </div>
+          <button type="submit" class="btn-nk-submit">Crear Clienta y Registrar Venta</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA INFERIOR DE NAVEGACIÓN FIJA -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Inicio</span>
+    </a>
+    <a href="clientes.html" class="nav-item">
+      <span class="nav-icon">👥</span>
+      <span class="nav-label">Clientes</span>
+    </a>
+    <a href="retos.html" class="nav-item">
+      <span class="nav-icon">🏆</span>
+      <span class="nav-label">Retos</span>
+    </a>
+    <a href="resumen.html" class="nav-item">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Resumen</span>
+    </a>
+    <a href="ajustes.html" class="nav-item">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Ajustes</span>
+    </a>
+  </nav>
+
+  <!-- SCRIPT BASE (VANILLA JS / INTEGRACIÓN FUTURA CON EL CORE) -->
+  <script type="module" src="index.js"></script>
+</body>
+</html>

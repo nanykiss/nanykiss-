@@ -1,0 +1,395 @@
+/* ==========================================================================
+   NANY KISS CRM - MÓDULO RETOS Y CAMPAÑAS (Estilos Base & Modales)
+   ========================================================================== */
+
+:root {
+  --nk-primary: #e91e63;
+  --nk-primary-dark: #c2185b;
+  --nk-secondary: #9c27b0;
+  --nk-bg: #f8f9fa;
+  --nk-card-bg: #ffffff;
+  --nk-text: #2c3e50;
+  --nk-muted: #7f8c8d;
+  --nk-border: #e2e8f0;
+  --nk-success: #2ecc71;
+  --nk-warning: #f39c12;
+  --nk-info: #3498db;
+  --nk-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --nk-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --nk-radius: 12px;
+  --nk-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nk-container {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background-color: var(--nk-bg);
+  color: var(--nk-text);
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Header & Section Titles
+   -------------------------------------------------------------------------- */
+.nk-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--nk-border);
+  padding-bottom: 12px;
+}
+
+.nk-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--nk-primary-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Botones
+   -------------------------------------------------------------------------- */
+.nk-btn {
+  background-color: var(--nk-primary);
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--nk-transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(233, 30, 99, 0.2);
+}
+
+.nk-btn:hover {
+  background-color: var(--nk-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3);
+}
+
+.nk-btn:active {
+  transform: translateY(0);
+}
+
+.nk-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.nk-btn-secondary {
+  background-color: #78909c;
+  box-shadow: none;
+}
+
+.nk-btn-secondary:hover {
+  background-color: #546e7a;
+  box-shadow: 0 2px 6px rgba(84, 110, 122, 0.2);
+}
+
+.nk-btn-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(37, 211, 102, 0.2);
+}
+
+.nk-btn-whatsapp:hover {
+  background-color: #1ebe57;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Grid de Tarjetas
+   -------------------------------------------------------------------------- */
+.nk-campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.nk-card {
+  background: var(--nk-card-bg);
+  border-radius: var(--nk-radius);
+  box-shadow: var(--nk-shadow);
+  padding: 20px;
+  border: 1px solid var(--nk-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: var(--nk-transition);
+}
+
+.nk-card:hover {
+  box-shadow: var(--nk-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Bordes por tipo de campaña */
+.nk-card.cobranza { border-left: 6px solid var(--nk-warning); }
+.nk-card.activa { border-left: 6px solid var(--nk-success); }
+.nk-card.borrador { border-left: 6px solid var(--nk-info); }
+.nk-card.historial { 
+  border-left: 6px solid var(--nk-muted);
+  opacity: 0.85;
+}
+
+.nk-card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.nk-card.cobranza .nk-card-badge { background: #fef9e7; color: #d68910; }
+.nk-card.activa .nk-card-badge { background: #e8f8f5; color: #117a65; }
+.nk-card.borrador .nk-card-badge { background: #ebf5fb; color: #2e86de; }
+.nk-card.historial .nk-card-badge { background: #f2f4f4; color: #7f8c8d; }
+
+.nk-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--nk-text);
+  margin: 0 0 10px 0;
+  padding-right: 70px;
+  line-height: 1.3;
+}
+
+.nk-card-info {
+  font-size: 0.85rem;
+  color: var(--nk-muted);
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.nk-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--nk-border);
+}
+
+/* --------------------------------------------------------------------------
+   Modales & Backdrop
+   -------------------------------------------------------------------------- */
+.nk-modal-backdrop {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: nkFadeIn 0.2s ease-out;
+}
+
+.nk-modal {
+  background: #ffffff;
+  border-radius: var(--nk-radius);
+  width: 90%;
+  max-width: 620px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: nkSlideUp 0.25s ease-out;
+}
+
+.nk-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--nk-border);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.nk-modal-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--nk-primary-dark);
+}
+
+/* Form Interactivo */
+.nk-form-group {
+  margin-bottom: 16px;
+}
+
+.nk-form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--nk-text);
+}
+
+.nk-form-group input,
+.nk-form-group select,
+.nk-form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--nk-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: var(--nk-transition);
+  background-color: #fafafa;
+}
+
+.nk-form-group input:focus,
+.nk-form-group select:focus,
+.nk-form-group textarea:focus {
+  outline: none;
+  border-color: var(--nk-primary);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.12);
+}
+
+.nk-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Seleccionador de Plantillas */
+.nk-template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.nk-template-btn {
+  background: #f8fafc;
+  border: 1px solid var(--nk-border);
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--nk-transition);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--nk-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nk-template-btn:hover {
+  background: var(--nk-primary);
+  color: #ffffff;
+  border-color: var(--nk-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(233, 30, 99, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   Selector de Clientes
+   -------------------------------------------------------------------------- */
+.nk-customer-selector {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid var(--nk-border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  background: #fafafa;
+}
+
+.nk-customer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--nk-border);
+  font-size: 0.85rem;
+}
+
+.nk-customer-item:last-child {
+  border-bottom: none;
+}
+
+.nk-customer-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--nk-primary);
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Ruleta Canvas & Sorteo
+   -------------------------------------------------------------------------- */
+.nk-roulette-container {
+  text-align: center;
+  margin: 10px 0;
+  position: relative;
+}
+
+#nk-roulette-canvas {
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Keyframes y Responsividad
+   -------------------------------------------------------------------------- */
+@keyframes nkFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes nkSlideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .nk-container {
+    padding: 16px;
+  }
+  
+  .nk-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nk-campaigns-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nk-modal {
+    padding: 16px;
+    width: 95%;
+  }
+
+  .nk-template-grid {
+    grid-template-columns: 1fr;
+  }
+}

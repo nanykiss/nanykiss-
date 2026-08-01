@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nany Kiss CRM - Ajustes</title>
+  <link rel="stylesheet" href="retos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .form-horizontal {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn-danger-outline {
+      background: transparent;
+      border: 2px solid #ff4757;
+      color: #ff4757;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .btn-danger-outline:hover {
+      background: #ff4757;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <h1>Nany Kiss CRM</h1>
+    <div class="logo-sub">Configuración y Directorio</div>
+  </header>
+
+  <main class="container" style="margin-bottom: 70px;">
+    
+    <!-- NUEVA SECCIÓN: DATOS DE TRANSFERENCIA -->
+    <div class="card">
+      <h2><i class="fa-solid fa-credit-card"></i> Datos para Mensajes de Cobro</h2>
+      <p style="font-size: 0.85rem; color: #747d8c; margin-bottom: 15px;">Configura la tarjeta que se enviará en las plantillas de WhatsApp.</p>
+      
+      <form id="form-datos-banco" onsubmit="guardarDatosBanco(event)" class="form-horizontal">
+        <div class="form-group">
+          <label>Número de Tarjeta / CLABE</label>
+          <input type="text" id="config-tarjeta" placeholder="Ej. 4152 3132..." required>
+        </div>
+        <div class="form-group">
+          <label>Nombre del Titular</label>
+          <input type="text" id="config-titular" placeholder="Ej. Nancy ..." required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; background-color: #2ed573;">Actualizar Datos de Pago</button>
+      </form>
+    </div>
+
+    <!-- SECCIÓN: REGISTRAR NUEVA CLIENTA -->
+    <div class="card">
+      <h2><i class="fa-solid fa-user-plus"></i> Registrar Nueva Clienta</h2>
+      <p style="font-size: 0.85rem; color: #747d8c; margin-bottom: 15px;">Añade una clienta al directorio de Google Sheets.</p>
+      
+      <form id="form-nueva-clienta" onsubmit="registrarClienta(event)" class="form-horizontal">
+        <div class="form-group">
+          <label>Nombre Completo</label>
+          <input type="text" id="reg-nombre" placeholder="Ej. María López" required>
+        </div>
+        <div class="form-group">
+          <label>Número de WhatsApp (10 dígitos)</label>
+          <input type="tel" id="reg-telefono" placeholder="Ej. 5512345678" pattern="[0-9]{10}" required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%;">Agregar al Directorio</button>
+      </form>
+    </div>
+
+    <!-- SECCIÓN: CONFIGURACIÓN DEL SISTEMA -->
+    <div class="card">
+      <h2><i class="fa-solid fa-gear"></i> Conexión del Sistema</h2>
+      <p style="font-size: 0.85rem; color: #747d8c; margin-bottom: 10px;">URL del motor de Google Apps Script vinculado.</p>
+      <input type="text" id="url-config-visual" value="https://script.google.com/macros/s/AKfycbzb7rdtOS0v4NVwAiPC5teM64CDYv04hbsDOJmbD5DVNYXdNA7Caq7uQBkBtUKKi5ET/exec" disabled style="background-color: #f1f2f6; color: #747d8c; font-size: 0.8rem;">
+      
+      <div class="btn-danger-outline" onclick="limpiarCacheLocal()">
+        <i class="fa-solid fa-trash-can"></i> Limpiar Caché Local
+      </div>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-address-book"></i>
+      <span>Clientes</span>
+    </a>
+    <a href="retos.html" class="nav-item">
+      <i class="fa-solid fa-trophy"></i>
+      <span>Retos</span>
+    </a>
+    <a href="agenda.html" class="nav-item">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Agenda</span>
+    </a>
+    <a href="resumen.html" class="nav-item">
+      <i class="fa-solid fa-chart-pie"></i>
+      <span>Resumen</span>
+    </a>
+    <a href="ajustes.html" class="nav-item active">
+      <i class="fa-solid fa-gear"></i>
+      <span>Ajustes</span>
+    </a>
+  </nav>
+
+  <script src="ajustes.js"></script>
+</body>
+</html>
